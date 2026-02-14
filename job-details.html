@@ -14,7 +14,9 @@
 <body>
     <header class="site-header">
         <div class="container">
-            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="KOLLAB">
+            </a>
             <nav>
                 <a href="login.html" class="nav-link" style="margin-right: 1.5rem;">Log In</a>
                 <a href="post-job.html" class="nav-link">Post a Job</a>
@@ -23,6 +25,14 @@
     </header>
 
     <main class="container">
+        <!-- Search Bar Integration -->
+        <section class="search-bar" style="margin-bottom: 2rem;">
+            <input type="text" id="keywords" placeholder="Filter by title, company, or keywords..."
+                aria-label="Search jobs">
+            <input type="text" id="location-filter" placeholder="City, country, or remote..."
+                aria-label="Filter by location">
+        </section>
+
         <div id="job-details-container" class="job-details-container">
             <div class="loading">Loading job details...</div>
         </div>

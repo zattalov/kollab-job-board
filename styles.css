@@ -44,10 +44,16 @@ body {
 }
 
 .logo {
-    font-size: 2rem;
-    /* Bigger logo */
-    font-weight: 700;
-    letter-spacing: -0.04em;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo img {
+    height: 40px;
+    /* Adjust height to match header */
+    width: auto;
 }
 
 .nav-link {
@@ -254,6 +260,48 @@ body {
     border-radius: 12px;
 }
 
+/* Pagination */
+.pagination-controls {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.pagination-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-color);
+    background: #fff;
+    color: var(--text-main);
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--text-main);
+    background: #f8f9fa;
+}
+
+.pagination-btn.active {
+    background: #00DF81;
+    color: #000;
+    border-color: #00DF81;
+    font-weight: 600;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
 /* Footer */
 .site-footer {
     padding: 4rem 0;
@@ -348,18 +396,24 @@ label {
 
 input[type="text"],
 input[type="url"],
+input[type="email"],
+input[type="password"],
 select,
 textarea {
     width: 100%;
-    padding: 0.8rem;
+    padding: 1rem 1.25rem;
+    /* Increased padding to match buttons */
     font-size: 1rem;
     font-family: inherit;
     border: 1px solid var(--border-color);
     border-radius: 6px;
+    /* Matching button radius */
     background-color: #fff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     -webkit-appearance: none;
     appearance: none;
+    height: auto;
+    /* Ensure height wraps content + padding */
 }
 
 input[type="text"]:focus,

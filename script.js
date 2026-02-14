@@ -115,6 +115,136 @@ const jobs = [
         about: "Advise product teams on legal matters. Navigate complex regulatory landscapes in tech.",
         requirements: ["JD from an accredited law school", "Bar admission", "Experience in tech transactions"],
         benefits: ["Google perks (food, gym)", "Stock units", "Parental leave"]
+    },
+    {
+        id: 11,
+        title: "Sales Representative",
+        company: "Salesforce",
+        location: "Chicago",
+        type: "Full-time",
+        tags: ["Sales", "CRM", "B2B"],
+        date: "4d ago",
+        field: "Sales",
+        about: "Drive revenue growth by acquiring new customers. Manage the full sales cycle.",
+        requirements: ["2+ years of sales experience", "Strong communication skills", "Ability to meet quotas"],
+        benefits: ["Uncapped commission", "Travel opportunities", "Health insurance"]
+    },
+    {
+        id: 12,
+        title: "Operations Manager",
+        company: "Amazon",
+        location: "Seattle",
+        type: "Full-time",
+        tags: ["Operations", "Logistics", "Management"],
+        date: "5d ago",
+        field: "Operations",
+        about: "Oversee daily operations in a fulfillment center. Ensure efficiency and safety.",
+        requirements: ["Bachelor's degree in Business or related field", "Experience in operations management", "Leadership skills"],
+        benefits: ["Stock options", "Health benefits", "Career growth"]
+    },
+    {
+        id: 13,
+        title: "Software Engineer",
+        company: "Microsoft",
+        location: "Redmond",
+        type: "Full-time",
+        tags: ["C#", ".NET", "Azure"],
+        date: "1w ago",
+        field: "Engineering",
+        about: "Build scalable cloud services on Azure. Work with a world-class engineering team.",
+        requirements: ["Proficiency in C# and .NET", "Experience with cloud computing", "Strong problem-solving skills"],
+        benefits: ["Competitive salary", "Bonuses", "Comprehensive benefits"]
+    },
+    {
+        id: 14,
+        title: "UX Researcher",
+        company: "Spotify",
+        location: "Remote",
+        type: "Contract",
+        tags: ["Design", "User Research", "Usability"],
+        date: "1w ago",
+        field: "Design",
+        about: "Conduct user research to inform product decisions. Improve the listening experience for millions.",
+        requirements: ["Experience in qualitative and quantitative research", "Strong analytical skills", "Ability to present findings"],
+        benefits: ["Flexible schedule", "Remote work", "Spotify Premium"]
+    },
+    {
+        id: 15,
+        title: "Data Analyst",
+        company: "Netflix",
+        location: "Los Gatos",
+        type: "Full-time",
+        tags: ["Data", "SQL", "Python"],
+        date: "2w ago",
+        field: "Engineering",
+        about: "Analyze viewing data to improve content recommendations. Work with big data technologies.",
+        requirements: ["Proficiency in SQL and Python", "Experience with data visualization tools", "Strong analytical mindset"],
+        benefits: ["Top-tier salary", "Freedom and responsibility culture", "Unlimited PTO"]
+    },
+    {
+        id: 16,
+        title: "Content Marketing Manager",
+        company: "HubSpot",
+        location: "Cambridge",
+        type: "Full-time",
+        tags: ["Marketing", "Content", "SEO"],
+        date: "2w ago",
+        field: "Marketing",
+        about: "Create compelling content to attract and engage our audience. Manage the content calendar.",
+        requirements: ["3+ years of content marketing experience", "Strong writing and editing skills", "Knowledge of SEO"],
+        benefits: ["Tuition reimbursement", "Sabbatical program", "Health and wellness benefits"]
+    },
+    {
+        id: 17,
+        title: "Financial Analyst",
+        company: "Goldman Sachs",
+        location: "New York",
+        type: "Full-time",
+        tags: ["Finance", "Analysis", "Investment"],
+        date: "3w ago",
+        field: "Finance",
+        about: "Provide financial analysis to support investment decisions. Model complex financial scenarios.",
+        requirements: ["Bachelor's degree in Finance or Economics", "Strong Excel skills", "Attention to detail"],
+        benefits: ["Performance-based bonuses", "Prestige", "Networking opportunities"]
+    },
+    {
+        id: 18,
+        title: "Elementary School Teacher",
+        company: "Private Academy",
+        location: "San Francisco",
+        type: "Full-time",
+        tags: ["Education", "Teaching", "Elementary"],
+        date: "3w ago",
+        field: "Education",
+        about: "Teach core subjects to elementary students. Foster a love of learning in a supportive environment.",
+        requirements: ["Teaching credential", "Experience with young children", "Patience and creativity"],
+        benefits: ["Small class sizes", "Professional development", "Competitive salary"]
+    },
+    {
+        id: 19,
+        title: "Pediatrician",
+        company: "Children's Hospital",
+        location: "Los Angeles",
+        type: "Full-time",
+        tags: ["Healthcare", "Pediatrics", "Medicine"],
+        date: "1mo ago",
+        field: "Healthcare",
+        about: "Diagnose and treat medical conditions in infants, children, and adolescents.",
+        requirements: ["MD or DO degree", "Board certification in Pediatrics", "Compassionate bedside manner"],
+        benefits: ["Comprehensive medical benefits", "Malpractice insurance", "Relocation assistance"]
+    },
+    {
+        id: 20,
+        title: "Corporate Attorney",
+        company: "Baker McKenzie",
+        location: "Chicago",
+        type: "Full-time",
+        tags: ["Legal", "Corporate", "Law"],
+        date: "1mo ago",
+        field: "Legal",
+        about: "Advise corporations on legal rights and obligations. Draft and review contracts.",
+        requirements: ["JD degree", "Admission to the Bar", "Experience in corporate law"],
+        benefits: ["High salary", "Merit bonuses", "Partnership track"]
     }
 ];
 
@@ -188,15 +318,32 @@ function renderJobDetails(jobId) {
 }
 
 if (jobListContainer) {
+    // Pagination State
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    const paginationContainer = document.getElementById('pagination-controls');
+
     function renderJobs(jobData) {
         jobListContainer.innerHTML = '';
+        paginationContainer.innerHTML = '';
 
         if (jobData.length === 0) {
             jobListContainer.innerHTML = '<div class="no-results">No jobs found matching your criteria.</div>';
             return;
         }
 
-        jobData.forEach(job => {
+        // Calculate Pagination
+        const totalPages = Math.ceil(jobData.length / itemsPerPage);
+
+        // Ensure currentPage is valid
+        if (currentPage > totalPages) currentPage = 1;
+
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const jobsToShow = jobData.slice(startIndex, endIndex);
+
+        // Render Jobs
+        jobsToShow.forEach(job => {
             const card = document.createElement('a');
             card.href = `job-details.html?id=${job.id}`; // Updated link
             card.className = 'job-card';
@@ -215,8 +362,54 @@ if (jobListContainer) {
                     <span class="job-date">${job.date}</span>
                 </div>
             `;
+            // Add subtle animation for new page loads
+            card.style.animation = 'fadeIn 0.3s ease-out';
             jobListContainer.appendChild(card);
         });
+
+        // Render Pagination Controls
+        if (totalPages > 1) {
+            // Previous Button
+            const prevBtn = document.createElement('button');
+            prevBtn.innerText = '←';
+            prevBtn.className = 'pagination-btn';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderJobs(jobData);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+            paginationContainer.appendChild(prevBtn);
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.innerText = i;
+                pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    renderJobs(jobData);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+                paginationContainer.appendChild(pageBtn);
+            }
+
+            // Next Button
+            const nextBtn = document.createElement('button');
+            nextBtn.innerText = '→';
+            nextBtn.className = 'pagination-btn';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderJobs(jobData);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            };
+            paginationContainer.appendChild(nextBtn);
+        }
     }
 
     function filterJobs() {
@@ -234,6 +427,9 @@ if (jobListContainer) {
 
             return matchesCategory && matchesSearch && matchesLocation;
         });
+
+        // Reset to first page when filtering
+        currentPage = 1;
         renderJobs(filtered);
     }
 
@@ -257,11 +453,49 @@ if (jobListContainer) {
 }
 
 if (searchInput || locationInput) {
-    // Event listener for search inputs
-    const handleInput = () => filterJobs();
+    const handleInput = () => {
+        // If we are on the index page (jobListContainer exists), filter in real-time
+        if (jobListContainer) {
+            filterJobs();
+        }
+        // If we are on other pages (like job-details), redirect on Enter
+        else {
+            // Check if Enter key was pressed (this listener needs to be keydown/keyup, not input)
+        }
+    };
 
-    if (searchInput) searchInput.addEventListener('input', handleInput);
-    if (locationInput) locationInput.addEventListener('input', handleInput);
+    // Real-time filtering for index page
+    if (jobListContainer) {
+        if (searchInput) searchInput.addEventListener('input', handleInput);
+        if (locationInput) locationInput.addEventListener('input', handleInput);
+    }
+    // Redirection logic for non-index pages
+    else {
+        const handleEnter = (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput ? searchInput.value : '';
+                const location = locationInput ? locationInput.value : '';
+                window.location.href = `index.html?q=${encodeURIComponent(query)}&loc=${encodeURIComponent(location)}`;
+            }
+        };
+
+        if (searchInput) searchInput.addEventListener('keydown', handleEnter);
+        if (locationInput) locationInput.addEventListener('keydown', handleEnter);
+    }
+}
+
+// Check for URL parameters on load (for index.html)
+if (jobListContainer) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get('q');
+    const locParam = urlParams.get('loc');
+
+    if (queryParam || locParam) {
+        if (searchInput && queryParam) searchInput.value = queryParam;
+        if (locationInput && locParam) locationInput.value = locParam;
+        // Trigger filter immediately
+        filterJobs();
+    }
 }
 
 // Job Post Form Handling

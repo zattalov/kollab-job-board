@@ -10,61 +10,66 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .login-wrapper {
-            display: flex;
-            max-width: 1000px;
-            margin: 4rem auto;
-            background: #fff;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--border-color);
-        }
-
-        .login-left {
-            flex: 1;
-            padding: 4rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .login-right {
-            flex: 1.2;
-            background: #f8f9fa;
+        /* Single Column Centered Layout */
+        body {
+            background-color: #f8f9fa;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
         }
 
-        .login-right img {
+        .login-card {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            max-width: 480px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            /* Subtle shadow */
+            padding: 3rem 2.5rem;
+            text-align: center;
+        }
+
+        .login-logo {
+            display: block;
+            margin: 0 auto 2rem auto;
+            max-width: 160px;
+            /* Adjust as needed based on generated image */
+            height: auto;
         }
 
         .login-title {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
             font-weight: 700;
             color: var(--text-main);
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
         }
 
         .login-options {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .login-option-btn {
-            display: block;
+            display: flex;
+            align-items: center;
             text-decoration: none;
-            padding: 1.5rem;
+            padding: 1rem 1.5rem;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             transition: all 0.2s ease;
             text-align: left;
+            background: #fff;
         }
 
         .login-option-btn:hover {
@@ -73,23 +78,27 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
+        .option-content {
+            display: flex;
+            flex-direction: column;
+        }
+
         .option-title {
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 0.25rem;
             color: var(--text-main);
+            margin-bottom: 0.2rem;
         }
 
         .option-desc {
             display: block;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
         }
 
         .auth-footer {
-            margin-top: 2rem;
-            text-align: center;
+            margin-top: 1rem;
             font-size: 0.95rem;
             color: var(--text-secondary);
         }
@@ -99,66 +108,36 @@
             text-decoration: none;
             font-weight: 600;
         }
-
-        .auth-footer a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .login-wrapper {
-                flex-direction: column;
-                margin: 2rem 1rem;
-            }
-
-            .login-right {
-                display: none;
-            }
-
-            .login-left {
-                padding: 2rem;
-            }
-        }
     </style>
 </head>
 
 <body>
-    <header class="site-header">
-        <div class="container">
-            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
-        </div>
-    </header>
+    <div class="login-card">
+        <a href="index.html">
+            <img src="logo.svg" alt="KOLLAB" class="login-logo">
+        </a>
 
-    <main class="container">
-        <div class="login-wrapper">
-            <div class="login-left">
-                <h1 class="login-title">Join KOLLAB</h1>
-                <p style="margin-bottom: 2rem; color: var(--text-secondary);">Choose your account type to get started.
-                </p>
-                <div class="login-options">
-                    <a href="recruiter-profile.html" class="login-option-btn">
-                        <span class="option-title">Recruiter</span>
-                        <span class="option-desc">Post jobs and find talent.</span>
-                    </a>
-                    <a href="seeker-profile.html" class="login-option-btn">
-                        <span class="option-title">Job Seeker</span>
-                        <span class="option-desc">Find your next opportunity.</span>
-                    </a>
-                </div>
-                <div class="auth-footer">
-                    Already have an account? <a href="login.html">Log in</a>
-                </div>
-            </div>
-            <div class="login-right">
-                <img src="login-illustration.png" alt="Team collaboration illustration">
-            </div>
-        </div>
-    </main>
+        <p class="login-subtitle">Choose your account type to get started.</p>
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 KOLLAB. find your people.</p>
+        <div class="login-options">
+            <a href="recruiter-profile.html" class="login-option-btn">
+                <div class="option-content">
+                    <span class="option-title">Recruiter</span>
+                    <span class="option-desc">Post jobs and find talent.</span>
+                </div>
+            </a>
+            <a href="seeker-profile.html" class="login-option-btn">
+                <div class="option-content">
+                    <span class="option-title">Job Seeker</span>
+                    <span class="option-desc">Find your next opportunity.</span>
+                </div>
+            </a>
         </div>
-    </footer>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Log in</a>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -14,7 +14,9 @@
 <body>
     <header class="site-header">
         <div class="container">
-            <h1 class="logo">KOLLAB</h1>
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="KOLLAB">
+            </a>
             <nav>
                 <a href="login.html" class="nav-link" style="margin-right: 1.5rem;">Log In</a>
                 <a href="post-job.html" class="nav-link">Post a Job</a>
@@ -53,6 +55,11 @@
                 <!-- Job cards will be injected here by JS -->
                 <div class="loading">Loading opportunities...</div>
             </section>
+
+            <div id="pagination-controls" class="pagination-controls"
+                style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem;">
+                <!-- Pagination buttons injected by JS -->
+            </div>
         </div>
     </main>
 
