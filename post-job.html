@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
+            <nav>
+                <a href="index.html" class="nav-link">Back to Jobs</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Post a job.</h2>
+            <p class="subtitle">Reach thousands of creative professionals.</p>
+        </section>
+
+        <section class="post-job-form">
+            <form id="job-form">
+                <div class="form-group">
+                    <label for="title">Job Title</label>
+                    <input type="text" id="title" name="title" required placeholder="e.g. Senior Product Designer">
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company Name</label>
+                    <input type="text" id="company" name="company" required placeholder="e.g. Acme Corp">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" required
+                        placeholder="e.g. Remote, London, New York">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="field">Job Field</label>
+                        <div class="select-wrapper">
+                            <select id="field" name="field" required>
+                                <option value="Design">Design</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Education">Education</option>
+                                <option value="Healthcare">Healthcare</option>
+                                <option value="Legal">Legal</option>
+                                <option value="Operations">Operations</option>
+                                <option value="Sales">Sales</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="type">Job Type</label>
+                        <div class="select-wrapper">
+                            <select id="type" name="type" required>
+                                <option value="Full-time">Full-time</option>
+                                <option value="Part-time">Part-time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Freelance">Freelance</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="tags">Tags (comma separated)</label>
+                    <input type="text" id="tags" name="tags" placeholder="e.g. Design, Figma, React">
+                </div>
+
+                <div class="form-group">
+                    <label for="about">About the Job</label>
+                    <textarea id="about" name="about" rows="5" required
+                        placeholder="Overview of the role and team..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="requirements">Requirements</label>
+                    <textarea id="requirements" name="requirements" rows="5" required
+                        placeholder="- 3+ years experience&#10;- Proficiency in..."
+                        style="white-space: pre-wrap;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="benefits">Benefits</label>
+                    <textarea id="benefits" name="benefits" rows="5" required
+                        placeholder="- Remote work&#10;- Health insurance..." style="white-space: pre-wrap;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="url">Application URL (Optional)</label>
+                    <input type="url" id="url" name="url" placeholder="https://...">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Post Job</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

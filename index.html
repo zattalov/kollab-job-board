@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <h1 class="logo">KOLLAB</h1>
+            <nav>
+                <a href="login.html" class="nav-link" style="margin-right: 1.5rem;">Log In</a>
+                <a href="post-job.html" class="nav-link">Post a Job</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero text removed as requested -->
+
+        <section class="search-bar">
+            <input type="text" id="keywords" placeholder="Filter by title, company, or keywords..."
+                aria-label="Search jobs">
+            <input type="text" id="location-filter" placeholder="City, country, or remote..."
+                aria-label="Filter by location">
+        </section>
+
+        <div class="main-grid">
+            <aside class="sidebar">
+                <h3>Fields</h3>
+                <ul class="category-list">
+                    <li><a href="#" class="category-link active" data-category="all">All Jobs</a></li>
+                    <li><a href="#" class="category-link" data-category="Design">Design</a></li>
+                    <li><a href="#" class="category-link" data-category="Engineering">Engineering</a></li>
+                    <li><a href="#" class="category-link" data-category="Marketing">Marketing</a></li>
+                    <li><a href="#" class="category-link" data-category="Finance">Finance</a></li>
+                    <li><a href="#" class="category-link" data-category="Education">Education</a></li>
+                    <li><a href="#" class="category-link" data-category="Healthcare">Healthcare</a></li>
+                    <li><a href="#" class="category-link" data-category="Legal">Legal</a></li>
+                    <li><a href="#" class="category-link" data-category="Operations">Operations</a></li>
+                    <li><a href="#" class="category-link" data-category="Sales">Sales</a></li>
+                </ul>
+            </aside>
+
+            <section id="job-list" class="job-list">
+                <!-- Job cards will be injected here by JS -->
+                <div class="loading">Loading opportunities...</div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

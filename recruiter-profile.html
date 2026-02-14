@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Profile - KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
+            <nav>
+                <a href="post-job.html" class="nav-link">Post a Job</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="profile-header">
+            <div class="profile-avatar recruiter-avatar">
+                <!-- Placeholder for company logo/recruiter image -->
+                <span>KP</span>
+            </div>
+            <div class="profile-info">
+                <h1>Sarah Jenkins</h1>
+                <p class="profile-title">Senior Technical Recruiter at Kaiser Permanente</p>
+                <p class="profile-bio">Passionate about connecting healthcare professionals with meaningful careers.
+                    Focusing on nursing, administration, and specialized medical roles across California.</p>
+            </div>
+        </section>
+
+        <section class="recruiter-jobs">
+            <h3 class="section-title">Jobs by Sarah</h3>
+            <div id="recruiter-job-list" class="job-list">
+                <!-- Jobs will be injected here -->
+                <div class="loading">Loading jobs...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline script to trigger specific rendering for this page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mock filter for demo purposes - showing "Healthcare" jobs
+            if (typeof renderRecruiterJobs === 'function') {
+                renderRecruiterJobs('recruiter-job-list', 'Healthcare');
+            }
+        });
+    </script>
+</body>
+
+</html>

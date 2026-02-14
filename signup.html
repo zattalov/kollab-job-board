@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .login-wrapper {
+            display: flex;
+            max-width: 1000px;
+            margin: 4rem auto;
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-left {
+            flex: 1;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-right {
+            flex: 1.2;
+            background: #f8f9fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .login-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .login-option-btn {
+            display: block;
+            text-decoration: none;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .login-option-btn:hover {
+            border-color: var(--text-main);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .option-title {
+            display: block;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--text-main);
+        }
+
+        .option-desc {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .login-wrapper {
+                flex-direction: column;
+                margin: 2rem 1rem;
+            }
+
+            .login-right {
+                display: none;
+            }
+
+            .login-left {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="login-wrapper">
+            <div class="login-left">
+                <h1 class="login-title">Join KOLLAB</h1>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">Choose your account type to get started.
+                </p>
+                <div class="login-options">
+                    <a href="recruiter-profile.html" class="login-option-btn">
+                        <span class="option-title">Recruiter</span>
+                        <span class="option-desc">Post jobs and find talent.</span>
+                    </a>
+                    <a href="seeker-profile.html" class="login-option-btn">
+                        <span class="option-title">Job Seeker</span>
+                        <span class="option-desc">Find your next opportunity.</span>
+                    </a>
+                </div>
+                <div class="auth-footer">
+                    Already have an account? <a href="login.html">Log in</a>
+                </div>
+            </div>
+            <div class="login-right">
+                <img src="login-illustration.png" alt="Team collaboration illustration">
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details - KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">KOLLAB</a>
+            <nav>
+                <a href="login.html" class="nav-link" style="margin-right: 1.5rem;">Log In</a>
+                <a href="post-job.html" class="nav-link">Post a Job</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="job-details-container" class="job-details-container">
+            <div class="loading">Loading job details...</div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get Job ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = parseInt(urlParams.get('id'));
+
+            if (jobId && typeof renderJobDetails === 'function') {
+                renderJobDetails(jobId);
+            } else {
+                document.getElementById('job-details-container').innerHTML = '<div class="error">Job not found.</div>';
+            }
+        });
+    </script>
+</body>
+
+</html>
