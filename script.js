@@ -92,10 +92,12 @@ function checkAuth() {
         // Change Log In to Profile Icon
         const loginLink = document.querySelector('a[href="login.html"]');
         if (loginLink) {
-            loginLink.innerHTML = '<img src="user-icon.svg" alt="Profile" style="width: 24px; height: 24px; vertical-align: middle;">';
+            loginLink.innerHTML = '<div class="profile-avatar" style="width: 40px; height: 40px; font-size: 1rem; border: 2px solid #fff;"><img src="default-avatar.svg" alt="Profile"></div>';
             loginLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
             loginLink.removeAttribute('onclick');
             loginLink.title = "View Profile";
+            loginLink.style.display = 'flex'; // Ensure flex alignment
+            loginLink.style.alignItems = 'center';
         }
 
         // Add Logout Button

@@ -101,14 +101,69 @@ body {
     color: #000;
 }
 
-.recruiter-avatar {
-    background-color: #e0e7ff;
-    color: #4338ca;
+/* Profile Avatar - Circular */
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+    /* consistent margin handled by layout */
+    background-color: #f0f0f0;
+    /* Fallback */
+    border: 3px solid #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.seeker-avatar {
-    background-color: #dcfce7;
-    color: #15803d;
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Standardize Button Sizes (Edit & Delete) */
+.job-actions button,
+.btn-secondary,
+.btn-danger {
+    min-width: 80px;
+    /* Ensure equal width */
+    text-align: center;
+    justify-content: center;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -2.45rem;
+    top: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    background: #fff;
+    border: 2px solid var(--text-main);
+    border-radius: 50%;
+}
+
+.timeline-content h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+}
+
+.timeline-content .company,
+.education-item .school {
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.timeline-content .date,
+.education-item .date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
 }
 
 /* ... rest of existing styles ... */
@@ -818,6 +873,7 @@ textarea {
         width: 100%;
     }
 }
+
 /* Secondary Button (Edit) */
 .btn-secondary {
     display: inline-block;
@@ -843,7 +899,8 @@ textarea {
 .toast-container {
     position: fixed;
     top: 20px;
-    right: 20px; /* Or left: 50%; transform: translateX(-50%); for center */
+    right: 20px;
+    /* Or left: 50%; transform: translateX(-50%); for center */
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -856,7 +913,8 @@ textarea {
     padding: 12px 24px;
     border-radius: 8px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    border-left: 4px solid #3b82f6; /* Default Blue */
+    border-left: 4px solid #3b82f6;
+    /* Default Blue */
     font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     min-width: 280px;
@@ -873,9 +931,21 @@ textarea {
     transform: translateY(0);
 }
 
-.toast.success { border-left-color: #10b981; } /* Green */
-.toast.error { border-left-color: #ef4444; } /* Red */
-.toast.info { border-left-color: #3b82f6; } /* Blue */
+.toast.success {
+    border-left-color: #10b981;
+}
+
+/* Green */
+.toast.error {
+    border-left-color: #ef4444;
+}
+
+/* Red */
+.toast.info {
+    border-left-color: #3b82f6;
+}
+
+/* Blue */
 
 /* --- CUSTOM CONFIRM MODAL --- */
 .modal-overlay {
@@ -932,7 +1002,8 @@ textarea {
 
 .modal-actions {
     display: flex;
-    justify-content: flex-end; /* Align right */
+    justify-content: flex-end;
+    /* Align right */
     gap: 12px;
 }
 
@@ -956,8 +1027,13 @@ textarea {
     font-weight: 500;
 }
 
-.btn-modal-cancel:hover { background: #f3f4f6; }
-.btn-modal-confirm:hover { background: #dc2626; }
+.btn-modal-cancel:hover {
+    background: #f3f4f6;
+}
+
+.btn-modal-confirm:hover {
+    background: #dc2626;
+}
 
 /* --- JOB CARD ACTIONS (Minimalist) --- */
 .job-actions {
@@ -969,8 +1045,10 @@ textarea {
 /* Edit Button - Ghost style */
 .btn-secondary {
     background-color: white;
-    color: #374151; /* Gray-700 */
-    border: 1px solid #d1d5db; /* Gray-300 */
+    color: #374151;
+    /* Gray-700 */
+    border: 1px solid #d1d5db;
+    /* Gray-300 */
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 0.875rem;
@@ -980,16 +1058,21 @@ textarea {
 }
 
 .btn-secondary:hover {
-    background-color: #f9fafb; /* Gray-50 */
-    border-color: #9ca3af; /* Gray-400 */
-    color: #111827; /* Gray-900 */
+    background-color: #f9fafb;
+    /* Gray-50 */
+    border-color: #9ca3af;
+    /* Gray-400 */
+    color: #111827;
+    /* Gray-900 */
 }
 
 /* Delete Button - Ghost style with Red accents */
 .btn-danger {
     background-color: white;
-    color: #ef4444; /* Red-500 */
-    border: 1px solid #feb2b2; /* Red-200 */
+    color: #ef4444;
+    /* Red-500 */
+    border: 1px solid #feb2b2;
+    /* Red-200 */
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 0.875rem;
@@ -999,9 +1082,12 @@ textarea {
 }
 
 .btn-danger:hover {
-    background-color: #fef2f2; /* Red-50 */
-    border-color: #f87171; /* Red-400 */
-    color: #dc2626; /* Red-600 */
+    background-color: #fef2f2;
+    /* Red-50 */
+    border-color: #f87171;
+    /* Red-400 */
+    color: #dc2626;
+    /* Red-600 */
 }
 
 /* --- UPDATED BUTTON STYLES (Recruiter View) --- */
@@ -1009,13 +1095,15 @@ textarea {
 /* Equal Size & Red Background for Delete */
 .btn-secondary,
 .btn-danger {
-    padding: 8px 16px; /* Larger, equal padding */
+    padding: 8px 16px;
+    /* Larger, equal padding */
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 80px; /* Ensure equal minimum width */
+    min-width: 80px;
+    /* Ensure equal minimum width */
     text-align: center;
 }
 
@@ -1033,13 +1121,15 @@ textarea {
 
 /* Red Background for Delete (Restored) */
 .btn-danger {
-    background-color: #ef4444; /* Red-500 */
+    background-color: #ef4444;
+    /* Red-500 */
     color: white;
     border: 1px solid #ef4444;
 }
 
 .btn-danger:hover {
-    background-color: #dc2626; /* Red-600 */
+    background-color: #dc2626;
+    /* Red-600 */
     border-color: #dc2626;
 }
 
@@ -1049,7 +1139,8 @@ textarea {
 .form-section {
     background: #fff;
     padding: 0;
-    margin-bottom: 3rem; /* Big spacing between sections */
+    margin-bottom: 3rem;
+    /* Big spacing between sections */
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 2rem;
 }
@@ -1075,14 +1166,15 @@ textarea {
     border: 1px solid #eee;
     border-radius: 12px;
     padding: 1.5rem;
-    margin-bottom: 1.5rem; /* Visibly separate items */
+    margin-bottom: 1.5rem;
+    /* Visibly separate items */
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
     position: relative;
 }
 
 .experience-item:hover,
 .education-item-form:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     border-color: #e0e0e0;
 }
 
@@ -1090,7 +1182,8 @@ textarea {
 .experience-item input,
 .experience-item textarea,
 .education-item-form input {
-    margin-bottom: 0.75rem; /* Space between inputs */
+    margin-bottom: 0.75rem;
+    /* Space between inputs */
     background: #fff;
 }
 
@@ -1138,12 +1231,13 @@ button[onclick^="addEducationItem"]:hover {
 
 /* Fix flex gap for mobile */
 @media (max-width: 600px) {
-    .experience-item div[style*="flex"], 
+
+    .experience-item div[style*="flex"],
     .education-item-form div[style*="flex"] {
         flex-direction: column;
         gap: 0 !important;
     }
-    
+
     .experience-item input,
     .education-item-form input {
         width: 100% !important;
