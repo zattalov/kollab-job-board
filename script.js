@@ -79,7 +79,7 @@ function handleJobSubmit(event) {
 
     const submitBtn = document.querySelector('.btn-submit');
     const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Posting...';
+    submitBtn.textContent = 'Saving...';
     submitBtn.disabled = true;
 
     const formData = new FormData(event.target);
@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Check URL Params for Edit Mode (post-job.html)
+    // We check this GLOBALLY, not just if jobListContainer exists.
     if (window.location.pathname.includes('post-job.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const editJobId = urlParams.get('edit');
