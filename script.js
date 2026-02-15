@@ -772,7 +772,9 @@ function renderProfilePage() {
     setText('info-availability', profile.availability);
 
     // Update Profile Picture
-    const avatarImg = document.querySelector('.profile-avatar img');
+    // Update Profile Picture
+    // Use a more specific selector to avoid targeting the navbar avatar
+    const avatarImg = document.querySelector('.profile-header .profile-avatar img');
     if (avatarImg && profile.profilePic) {
         avatarImg.src = profile.profilePic;
     }
