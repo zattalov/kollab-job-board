@@ -96,35 +96,61 @@ function checkAuth() {
             const profileData = getProfile(user.role);
             const profilePicSrc = profileData.profilePic || 'default-avatar.svg';
 
-            loginLink.innerHTML = `<div class="profile-avatar" style="width: 40px; height: 40px; font-size: 1rem; border: 2px solid #fff;"><img src="${profilePicSrc}" alt="Profile"></div>`;
-            loginLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
-            loginLink.removeAttribute('onclick');
-            loginLink.title = "View Profile";
-            loginLink.style.display = 'flex';
-            loginLink.style.alignItems = 'center';
-        }
+            // Create Dropdown Container
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.className = 'profile-dropdown';
+            dropdownContainer.style.position = 'relative';
+            dropdownContainer.style.marginLeft = '1.5rem';
+            dropdownContainer.style.display = 'flex';
+            dropdownContainer.style.alignItems = 'center';
+            dropdownContainer.style.cursor = 'pointer';
 
-        // Add Logout Button
-        if (!document.getElementById('logout-btn')) {
-            const logoutBtn = document.createElement('a');
-            logoutBtn.id = 'logout-btn';
-            logoutBtn.href = '#';
-            logoutBtn.className = 'nav-link';
-            logoutBtn.style.marginLeft = '1.5rem';
-            logoutBtn.textContent = 'Logout';
-            logoutBtn.onclick = (e) => {
+            // Profile Icon
+            const profileIcon = document.createElement('div');
+            profileIcon.className = 'profile-avatar';
+            profileIcon.style.width = '40px';
+            profileIcon.style.height = '40px';
+            profileIcon.style.fontSize = '1rem';
+            profileIcon.style.border = '2px solid #fff';
+            profileIcon.innerHTML = `<img src="${profilePicSrc}" alt="Profile">`;
+
+            // Dropdown Menu
+            const dropdownMenu = document.createElement('div');
+            dropdownMenu.className = 'dropdown-menu';
+            dropdownMenu.innerHTML = `
+                <a href="${user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html'}">Profile</a>
+                <a href="#" id="logout-link">Logout</a>
+            `;
+
+            // Append to Container
+            dropdownContainer.appendChild(profileIcon);
+            dropdownContainer.appendChild(dropdownMenu);
+
+            // Replace Login Link with Dropdown
+            loginLink.replaceWith(dropdownContainer);
+
+            // Toggle Dropdown
+            dropdownContainer.onclick = (e) => {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('show');
+            };
+
+            // Close Dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdownContainer.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+
+            // Logout Logic
+            document.getElementById('logout-link').onclick = (e) => {
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
                 window.location.href = 'index.html';
             };
-
-            // Insert BEFORE loginLink (Profile Icon) if it exists, so Profile Icon is last
-            if (loginLink && loginLink.parentNode === navLinks) {
-                navLinks.insertBefore(logoutBtn, loginLink);
-            } else if (navLinks) {
-                navLinks.appendChild(logoutBtn);
-            }
         }
+
+        // Remove Standalone Logout Button Logic (Deleted)
 
         // Show "Post a Job" ONLY for Recruiters
         if (user.role === 'recruiter' && postJobLink) {
