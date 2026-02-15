@@ -422,7 +422,19 @@ function renderRecruiterJobs(containerId, fieldFilter) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const recruiterJobs = jobs.filter(job => job.field === fieldFilter);
+    // Wait until jobs are loaded if they are empty (simple retry mechanism)
+    if (jobs.length === 0) {
+        // If we are still fetching, we might want to wait. 
+        // But for now, let's just assume if it's empty after fetch, it's empty.
+        // However, if called BEFORE fetch completes, this is an issue.
+        // The centralized logic in DOMContentLoaded handles this now.
+    }
+
+    let recruiterJobs = jobs; // Default to all
+    if (fieldFilter && fieldFilter !== 'All') {
+        recruiterJobs = jobs.filter(job => job.field === fieldFilter);
+    }
+
     container.innerHTML = '';
 
     if (recruiterJobs.length === 0) {
@@ -431,23 +443,31 @@ function renderRecruiterJobs(containerId, fieldFilter) {
     }
 
     recruiterJobs.forEach(job => {
-        const card = document.createElement('a');
-        card.href = `index.html?q=${encodeURIComponent(job.title)}`; // Search for it
+        const card = document.createElement('div');
         card.className = 'job-card';
+        card.style.display = 'block';
+
+        const actions = `
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; display: flex; gap: 1rem;">
+                <button onclick="editJob('${job.id}')" class="btn-secondary" style="font-size: 0.9rem; padding: 0.25rem 0.5rem;">Edit</button>
+                <button onclick="deleteJob('${job.id}')" class="btn-danger" style="background-color: #ff4d4f; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">Delete</button>
+            </div>
+        `;
+
         card.innerHTML = `
-            <div class="job-info">
-                <h3>${job.title}</h3>
-                <div class="job-details">
-                    <span class="company-name">${job.company}</span> &middot; <span>${job.location}</span>
+            <a href="job-details.html?id=${job.id}" style="text-decoration: none; color: inherit; display: block;">
+                <div class="job-info">
+                    <h3>${job.title}</h3>
+                    <div class="job-details">
+                        <span class="company-name">${job.company}</span> &middot; <span>${job.location}</span>
+                    </div>
                 </div>
-                <div class="tags">
-                    ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                <div class="job-meta">
+                    <span class="job-type">${job.type}</span>
+                    <span class="job-date">${job.date}</span>
                 </div>
-            </div>
-            <div class="job-meta">
-                <span class="job-type">${job.type}</span>
-                <span class="job-date">${job.date}</span>
-            </div>
+            </a>
+            ${actions}
         `;
         container.appendChild(card);
     });
