@@ -61,6 +61,11 @@ body {
     width: auto;
 }
 
+nav {
+    display: flex;
+    align-items: center;
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--text-secondary);
