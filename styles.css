@@ -12,14 +12,17 @@
 
 .dark-mode {
     --bg-color: #121212;
-    --text-main: #e0e0e0;
-    --text-secondary: #a0a0a0;
-    --card-hover: #1e1e1e;
+    --text-main: #E0E0E0;
+    --text-secondary: #A0A0A0;
+    /* Lighter secondary text for better contrast */
+    --card-hover: #1E1E1E;
     --border-color: #333333;
-    --accent-color: #ffffff;
-    --header-bg: #1a1a1a;
-    --input-bg: #2a2a2a;
-    --dropdown-bg: #1a1a1a;
+    --accent-color: #FFFFFF;
+    --header-bg: #1A1A1A;
+    --input-bg: #2A2A2A;
+    --dropdown-bg: #1A1A1A;
+    --btn-text: #000000;
+    /* Ensure button text is black on green */
 }
 
 * {
@@ -141,7 +144,8 @@ nav {
 
 .nav-btn {
     background-color: #00DF81;
-    color: #000;
+    color: var(--btn-text, #000);
+    /* Use variable or default black */
     padding: 0.5rem 1rem;
     border-radius: 6px;
     font-weight: 600;
@@ -343,6 +347,11 @@ nav {
     color: inherit;
     transition: transform 0.2s ease, opacity 0.2s ease;
     cursor: pointer;
+}
+
+.dark-mode .job-card {
+    border-bottom-color: #333;
+    /* Darker border for cards */
 }
 
 .job-card:hover {
