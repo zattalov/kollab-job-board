@@ -140,6 +140,11 @@ nav {
     background-color: #f9fafb;
 }
 
+.dark-mode .dropdown-menu a:hover {
+    background-color: #333;
+    /* Darker hover for dark mode */
+}
+
 .nav-link:hover {
     color: var(--text-main);
 }
@@ -1320,12 +1325,28 @@ textarea {
     color: #111827;
 }
 
+/* Ensure secondary button (Edit) has same height/padding as danger */
+.btn-secondary {
+    padding: 0.5rem 1rem;
+    height: 38px;
+    /* Fixed height to match */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* Red Background for Delete (Restored) */
 .btn-danger {
     background-color: #ef4444;
     /* Red-500 */
     color: white;
     border: 1px solid #ef4444;
+    padding: 0.5rem 1rem;
+    height: 38px;
+    /* Fixed height to match */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-danger:hover {
