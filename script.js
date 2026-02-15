@@ -852,10 +852,7 @@ function addExperienceItem(data = {}) {
     if (!container) return;
     const div = document.createElement('div');
     div.className = 'experience-item';
-    div.style.border = '1px solid #eee';
-    div.style.padding = '1rem';
-    div.style.marginBottom = '1rem';
-    div.style.borderRadius = '8px';
+    // Styles moved to CSS
     div.innerHTML = `
         <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
             <input type="text" class="exp-title" placeholder="Job Title" value="${data.title || ''}" style="flex: 1;" required>
@@ -865,7 +862,9 @@ function addExperienceItem(data = {}) {
             <input type="text" class="exp-date" placeholder="Date (e.g. 2020 - 2022)" value="${data.date || ''}" style="width: 100%;">
         </div>
         <textarea class="exp-desc" placeholder="Description" rows="3" style="width: 100%;">${data.description || ''}</textarea>
-        <button type="button" class="btn-danger" style="margin-top: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="this.parentElement.remove()">Remove</button>
+        <div style="text-align: right; margin-top: 0.5rem;">
+            <button type="button" class="btn-danger" onclick="this.closest('.experience-item').remove()">Remove</button>
+        </div>
     `;
     container.appendChild(div);
 }
@@ -875,10 +874,7 @@ function addEducationItem(data = {}) {
     if (!container) return;
     const div = document.createElement('div');
     div.className = 'education-item-form';
-    div.style.border = '1px solid #eee';
-    div.style.padding = '1rem';
-    div.style.marginBottom = '1rem';
-    div.style.borderRadius = '8px';
+    // Styles moved to CSS
     div.innerHTML = `
         <div style="margin-bottom: 0.5rem;">
             <input type="text" class="edu-degree" placeholder="Degree / Certificate" value="${data.degree || ''}" style="width: 100%;" required>
@@ -887,7 +883,9 @@ function addEducationItem(data = {}) {
             <input type="text" class="edu-school" placeholder="School / University" value="${data.school || ''}" style="flex: 1;" required>
             <input type="text" class="edu-date" placeholder="Date" value="${data.date || ''}" style="flex: 1;">
         </div>
-        <button type="button" class="btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="this.parentElement.remove()">Remove</button>
+        <div style="text-align: right; margin-top: 0.5rem;">
+            <button type="button" class="btn-danger" onclick="this.closest('.education-item-form').remove()">Remove</button>
+        </div>
     `;
     container.appendChild(div);
 }

@@ -1042,3 +1042,111 @@ textarea {
     background-color: #dc2626; /* Red-600 */
     border-color: #dc2626;
 }
+
+/* --- IMPROVED FORM SPACING & UI --- */
+
+/* Space between major form sections */
+.form-section {
+    background: #fff;
+    padding: 0;
+    margin-bottom: 3rem; /* Big spacing between sections */
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 2rem;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+/* Section Titles */
+.form-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+}
+
+/* Dynamic Item Cards (Experience/Education) */
+.experience-item,
+.education-item-form {
+    background: #fdfdfd;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem; /* Visibly separate items */
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    position: relative;
+}
+
+.experience-item:hover,
+.education-item-form:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    border-color: #e0e0e0;
+}
+
+/* Input Spacing inside cards */
+.experience-item input,
+.experience-item textarea,
+.education-item-form input {
+    margin-bottom: 0.75rem; /* Space between inputs */
+    background: #fff;
+}
+
+/* Remove Button - positioned top right or distinct */
+.btn-danger {
+    background-color: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+
+.btn-danger:hover {
+    background-color: #fca5a5;
+    color: #991b1b;
+    border-color: #fca5a5;
+}
+
+/* Add Button Styling */
+button[onclick^="addExperienceItem"],
+button[onclick^="addEducationItem"] {
+    width: 100%;
+    padding: 1rem;
+    border: 2px dashed #eee;
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button[onclick^="addExperienceItem"]:hover,
+button[onclick^="addEducationItem"]:hover {
+    border-color: #ccc;
+    color: var(--text-main);
+    background: #fafafa;
+}
+
+/* Fix flex gap for mobile */
+@media (max-width: 600px) {
+    .experience-item div[style*="flex"], 
+    .education-item-form div[style*="flex"] {
+        flex-direction: column;
+        gap: 0 !important;
+    }
+    
+    .experience-item input,
+    .education-item-form input {
+        width: 100% !important;
+        flex: none !important;
+    }
+}
