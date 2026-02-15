@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - KOLLAB</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="KOLLAB">
+            </a>
+            <nav>
+                <a href="#" class="nav-link" id="back-link">Back to Profile</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="post-job-container"> <!-- Reusing post-job styles for form layout -->
+            <h1 style="margin-bottom: 2rem;">Edit Profile</h1>
+
+            <form id="edit-profile-form">
+                <!-- Basic Info -->
+                <section class="form-section">
+                    <h2 class="form-section-title">Basic Information</h2>
+
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Professional Title</label>
+                        <input type="text" id="title" name="title" placeholder="e.g. Senior Product Designer">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bio">Bio / About</label>
+                        <textarea id="bio" name="bio" rows="4"></textarea>
+                    </div>
+                </section>
+
+                <section class="form-section">
+                    <h2 class="form-section-title">Contact & Social</h2>
+                    <div class="form-row"> <!-- Assuming form-row class exists or I'll generic styling -->
+                        <div class="form-group" style="flex: 1;">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="website">Website</label>
+                            <input type="text" id="website" name="website">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="availability">Availability Status</label>
+                        <select id="availability" name="availability">
+                            <option value="Open to offers">Open to offers</option>
+                            <option value="Actively looking">Actively looking</option>
+                            <option value="Not looking">Not looking</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Seeker Specific Sections -->
+                <div id="seeker-sections">
+                    <section class="form-section">
+                        <h2 class="form-section-title">Skills</h2>
+                        <p class="form-hint">Separate skills with commas (e.g. UI Design, Figma, CSS)</p>
+                        <div class="form-group">
+                            <textarea id="skills" name="skills" rows="2"></textarea>
+                        </div>
+                    </section>
+
+                    <section class="form-section">
+                        <h2 class="form-section-title">Experience</h2>
+                        <div id="experience-container">
+                            <!-- Dynamic Experience Items -->
+                        </div>
+                        <button type="button" class="btn-secondary" onclick="addExperienceItem()">+ Add
+                            Experience</button>
+                    </section>
+
+                    <section class="form-section">
+                        <h2 class="form-section-title">Education</h2>
+                        <div id="education-container">
+                            <!-- Dynamic Education Items -->
+                        </div>
+                        <button type="button" class="btn-secondary" onclick="addEducationItem()">+ Add
+                            Education</button>
+                    </section>
+                </div>
+
+                <div class="form-actions" style="margin-top: 2rem; border-top: 1px solid #eee; padding-top: 1rem;">
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 KOLLAB. find your people.</p>
+        </div>
+    </footer>
+
+    <script src="script.js?v=24"></script>
+</body>
+
+</html>
