@@ -322,28 +322,48 @@ document.addEventListener('DOMContentLoaded', () => {
         const editJobId = urlParams.get('edit');
 
         if (editJobId) {
+            console.log('Edit mode detected for Job ID:', editJobId);
             document.querySelector('h1').textContent = 'Edit Job';
             const submitBtn = document.querySelector('.btn-submit');
-            if (submitBtn) submitBtn.textContent = 'Update Job';
+            if (submitBtn) submitBtn.textContent = 'Save';
 
             fetch(`${API_URL}/${editJobId}`)
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                    return res.json();
+                })
                 .then(data => {
+                    console.log('Fetched job data for edit:', data);
                     if (data.success) {
                         const job = data.data;
-                        const getEl = (id) => document.getElementById(id);
-                        if (getEl('title')) getEl('title').value = job.title;
-                        if (getEl('company')) getEl('company').value = job.company;
-                        if (getEl('location')) getEl('location').value = job.location;
-                        if (getEl('field')) getEl('field').value = job.field;
-                        if (getEl('type')) getEl('type').value = job.type;
-                        if (getEl('tags')) getEl('tags').value = job.tags.join(', ');
-                        if (getEl('about')) getEl('about').value = job.about;
-                        if (getEl('requirements')) getEl('requirements').value = job.requirements.join('\n');
-                        if (getEl('benefits')) getEl('benefits').value = job.benefits.join('\n');
+                        const setValue = (id, val) => {
+                            const el = document.getElementById(id);
+                            if (el) el.value = val || '';
+                        };
+
+                        setValue('title', job.title);
+                        setValue('company', job.company);
+                        setValue('location', job.location);
+                        setValue('field', job.field);
+                        setValue('type', job.type);
+
+                        // Handle Arrays/Textareas
+                        setValue('tags', Array.isArray(job.tags) ? job.tags.join(', ') : job.tags);
+                        setValue('about', job.about);
+                        setValue('requirements', Array.isArray(job.requirements) ? job.requirements.join('\n') : job.requirements);
+                        setValue('benefits', Array.isArray(job.benefits) ? job.benefits.join('\n') : job.benefits);
+
+                        // Optional URL
+                        setValue('url', job.applicationUrl || job.url);
+                    } else {
+                        console.error('API returned error:', data.error);
+                        alert('Could not load job details: ' + data.error);
                     }
                 })
-                .catch(err => console.error('Error fetching job for edit:', err));
+                .catch(err => {
+                    console.error('Error fetching job for edit:', err);
+                    alert('Failed to load job details. Please check console.');
+                });
         }
     }
 });
