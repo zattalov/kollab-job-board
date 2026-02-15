@@ -48,7 +48,8 @@ body {
 /* Header */
 .site-header {
     background: var(--header-bg, #ffffff);
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border-color);
+    /* Use variable for border */
     padding: 1rem 0;
     position: sticky;
     top: 0;
@@ -125,7 +126,8 @@ nav {
     color: var(--text-main);
     font-size: 0.95rem;
     transition: background-color 0.2s;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
+    /* Use variable for separator */
 }
 
 .dropdown-menu a:last-child {
@@ -415,6 +417,103 @@ nav {
     border: 1px solid #eee;
     padding: 2px 8px;
     border-radius: 12px;
+}
+
+.dark-mode .tag,
+.dark-mode .job-type {
+    background: #333;
+    /* Dark Grey background */
+    color: #fff;
+    /* White text */
+    border-color: #444;
+}
+
+/* Ensure recruiter page text is white */
+.dark-mode .recruiter-jobs .job-card h3,
+.dark-mode .recruiter-jobs .job-card p,
+.dark-mode .recruiter-jobs .job-card .job-meta {
+    color: var(--text-main);
+}
+
+.dark-mode .recruiter-jobs .job-card .job-meta span {
+    color: var(--text-secondary);
+}
+
+/* Recruiter Job Card Styles */
+.recruiter-job-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.recruiter-job-main {
+    flex: 1;
+    padding-right: 1rem;
+}
+
+.recruiter-job-title {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.recruiter-job-company {
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.recruiter-job-location,
+.separator {
+    color: #6b7280;
+}
+
+.recruiter-job-meta {
+    text-align: right;
+    min-width: 100px;
+}
+
+.recruiter-job-tag {
+    display: inline-block;
+    background: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    text-transform: uppercase;
+}
+
+.recruiter-job-date {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-top: 4px;
+}
+
+.recruiter-job-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* Dark Mode Overrides for Recruiter Jobs */
+.dark-mode .recruiter-job-title {
+    color: #fff;
+}
+
+.dark-mode .recruiter-job-company,
+.dark-mode .recruiter-job-location,
+.dark-mode .separator {
+    color: var(--text-secondary);
+}
+
+.dark-mode .recruiter-job-tag {
+    background: #333;
+    color: #fff;
+    border: 1px solid #444;
+    /* Adding border to match user preference for 'dark grey' look */
 }
 
 /* Pagination */

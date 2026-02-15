@@ -646,35 +646,28 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         card.className = 'job-card';
         card.style.display = 'block';
 
-        const actions = `
-            <div class="job-actions">
-                <button onclick="editJob('${job.id}')" class="btn-secondary">Edit</button>
-                <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete</button>
-            </div>
-        `;
-
         card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
-                <div style="flex: 1; padding-right: 1rem;">
-                    <h3 style="margin: 0 0 0.25rem 0; font-size: 1.1rem; color: #111827; line-height: 1.2;">${job.title}</h3>
+            <div class="recruiter-job-content">
+                <div class="recruiter-job-main">
+                    <h3 class="recruiter-job-title">${job.title}</h3>
                     <div class="job-details">
-                        <span class="company-name" style="font-weight: 500; color: #1f2937;">${job.company}</span> 
-                        <span style="color: #9ca3af;">&middot;</span> 
-                        <span style="color: #6b7280;">${job.location}</span>
+                        <span class="recruiter-job-company">${job.company}</span> 
+                        <span class="separator">&middot;</span> 
+                        <span class="recruiter-job-location">${job.location}</span>
                     </div>
                 </div>
 
-                <div style="text-align: right; min-width: 100px;">
-                    <div style="display: inline-block; background: #f3f4f6; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; color: #374151; text-transform: uppercase;">
+                <div class="recruiter-job-meta">
+                    <div class="recruiter-job-tag">
                         ${job.type}
                     </div>
-                    <div style="font-size: 0.85rem; color: #9ca3af; margin-top: 4px;">
+                    <div class="recruiter-job-date">
                         ${job.date}
                     </div>
                 </div>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
+            <div class="recruiter-job-actions">
                 <button onclick="editJob('${job.id}')" class="btn-secondary">Edit</button>
                 <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete</button>
             </div>
