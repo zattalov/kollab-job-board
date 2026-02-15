@@ -52,13 +52,13 @@
         </div>
     </footer>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
     <script>
         // Inline script to trigger specific rendering for this page
         document.addEventListener('DOMContentLoaded', () => {
             // Mock filter for demo purposes - showing "Healthcare" jobs
             if (typeof renderRecruiterJobs === 'function') {
-                renderRecruiterJobs('recruiter-job-list', 'Healthcare');
+                renderRecruiterJobs('recruiter-job-list', 'All');
             }
         });
     </script>
