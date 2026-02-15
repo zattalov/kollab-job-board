@@ -1366,6 +1366,19 @@ textarea {
     border-color: #dc2626;
 }
 
+/* Dark Mode Overrides for Buttons */
+.dark-mode .btn-danger {
+    background-color: #dc2626;
+    /* Red-600: More saturated/darker red */
+    border-color: #dc2626;
+}
+
+.dark-mode .btn-danger:hover {
+    background-color: #b91c1c;
+    /* Red-700: Even darker on hover */
+    border-color: #b91c1c;
+}
+
 /* --- IMPROVED FORM SPACING & UI --- */
 
 /* Space between major form sections */
