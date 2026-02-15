@@ -30,10 +30,13 @@
                 <span>KP</span>
             </div>
             <div class="profile-info">
-                <h1>Sarah Jenkins</h1>
-                <p class="profile-title">Senior Technical Recruiter at Kaiser Permanente</p>
-                <p class="profile-bio">Passionate about connecting healthcare professionals with meaningful careers.
+                <h1 id="profile-name">Jamel Eddine Ghabbara</h1>
+                <p id="profile-title" class="profile-title">Senior Technical Recruiter at Kaiser Permanente</p>
+                <p id="profile-bio" class="profile-bio">Passionate about connecting healthcare professionals with
+                    meaningful careers.
                     Focusing on nursing, administration, and specialized medical roles across California.</p>
+                <button id="edit-profile-btn" class="btn-secondary" style="margin-top: 1rem; font-size: 0.9rem;"
+                    onclick="toggleEditProfile()">Edit Profile</button>
             </div>
         </section>
 
@@ -52,7 +55,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=21"></script>
+    <script src="script.js?v=22"></script>
     <script>
         // Inline script to trigger specific rendering for this page
         document.addEventListener('DOMContentLoaded', () => {

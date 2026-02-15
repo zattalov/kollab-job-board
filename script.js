@@ -82,7 +82,8 @@ const categoryLinks = document.querySelectorAll('.category-link');
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const navLinks = document.querySelector('nav');
-    const postJobLink = document.querySelector('a[href="post-job.html"]');
+    // Hide "Post a Job" by default
+    if (postJobLink) postJobLink.style.display = 'none';
 
     if (user) {
         // Change Log In to Profile Icon
@@ -110,9 +111,9 @@ function checkAuth() {
             if (navLinks) navLinks.appendChild(logoutBtn);
         }
 
-        // Hide "Post a Job" for Seekers
-        if (user.role === 'seeker' && postJobLink) {
-            postJobLink.style.display = 'none';
+        // Show "Post a Job" ONLY for Recruiters
+        if (user.role === 'recruiter' && postJobLink) {
+            postJobLink.style.display = 'inline-block';
         }
     }
 }
@@ -594,7 +595,7 @@ function renderRecruiterJobs(containerId, fieldFilter) {
                 </div>
             </div>
             
-            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem; border-top: 1px solid #f3f4f6; padding-top: 0.75rem;">
+            <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1rem;">
                 <button onclick="editJob('${job.id}')" class="btn-secondary">Edit</button>
                 <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete</button>
             </div>
