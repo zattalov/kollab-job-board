@@ -574,7 +574,6 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         `;
 
         card.innerHTML = `
-        card.innerHTML = `
             < !--Main Content Row-- >
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
                 <!-- Left: Title & Company -->
