@@ -119,8 +119,32 @@ function checkAuth() {
             dropdownMenu.className = 'dropdown-menu';
             dropdownMenu.innerHTML = `
                 <a href="${user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html'}">Profile</a>
+                <a href="#" id="dark-mode-toggle">Dark Mode</a>
                 <a href="#" id="logout-link">Logout</a>
             `;
+
+            // Append to Container
+            dropdownContainer.appendChild(profileIcon);
+            dropdownContainer.appendChild(dropdownMenu);
+
+            // Replace Login Link with Dropdown
+            loginLink.replaceWith(dropdownContainer);
+
+            // Dark Mode Toggle Logic
+            const darkModeToggle = dropdownMenu.querySelector('#dark-mode-toggle');
+            darkModeToggle.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                document.body.classList.toggle('dark-mode');
+                const isDarkMode = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkMode);
+                darkModeToggle.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+            };
+
+            // Initialize Dark Mode Text
+            if (localStorage.getItem('darkMode') === 'true') {
+                darkModeToggle.textContent = 'Light Mode';
+            }
 
             // Append to Container
             dropdownContainer.appendChild(profileIcon);
@@ -358,6 +382,9 @@ function filterJobs() {
 
 // --- INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
     checkAuth();
 
     // Page Initializers
