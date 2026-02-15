@@ -322,6 +322,15 @@ function filterJobs() {
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
 
+    // Page Initializers
+    const path = window.location.pathname;
+    if (path.includes('profile.html') || document.getElementById('profile-name')) {
+        if (typeof renderProfilePage === 'function') renderProfilePage();
+    }
+    if (path.includes('edit-profile.html') || document.getElementById('edit-profile-form')) {
+        if (typeof initEditProfilePage === 'function') initEditProfilePage();
+    }
+
     // CHAINING: Fetch -> Then -> Render
     fetchJobs().then(() => {
         // 1. Initial Render for Index (if on index page)
