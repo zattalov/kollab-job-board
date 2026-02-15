@@ -117,6 +117,8 @@ function checkAuth() {
         // Show "Post a Job" ONLY for Recruiters
         if (user.role === 'recruiter' && postJobLink) {
             postJobLink.style.display = 'inline-block';
+        } else if (postJobLink) {
+            postJobLink.style.display = 'none';
         }
     }
 }
