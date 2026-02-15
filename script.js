@@ -618,44 +618,281 @@ function renderRecruiterJobs(containerId, fieldFilter) {
     });
 }
 
-// --- PROFILE EDIT LOGIC ---
-function toggleEditProfile() {
-    const btn = document.getElementById('edit-profile-btn');
-    const nameEl = document.getElementById('profile-name');
-    const titleEl = document.getElementById('profile-title');
-    const bioEl = document.getElementById('profile-bio');
+// --- PROFILE DATA & EDITING LOGIC ---
 
-    if (!btn || !nameEl || !titleEl || !bioEl) return;
+const defaultSeekerProfile = {
+    name: "Alex Morgan",
+    title: "Product Designer & UI Specialist",
+    bio: "Creating intuitive and beautiful digital experiences. obsessive about typography and micro-interactions. always learning.",
+    location: "San Francisco, CA",
+    email: "alex.m@example.com",
+    website: "alexmorgan.design",
+    availability: "Open to offers",
+    skills: ["UI Design", "UX Research", "Figma", "Prototyping", "HTML/CSS", "Design Systems"],
+    experience: [
+        {
+            title: "Senior Product Designer",
+            company: "TechFlow Inc.",
+            date: "2023 - Present",
+            description: "Leading the design system team and overseeing the UX for the main SaaS platform."
+        },
+        {
+            title: "UI Designer",
+            company: "Creative Studio",
+            date: "2020 - 2023",
+            description: "Designed marketing websites and mobile apps for various startup clients."
+        }
+    ],
+    education: [
+        {
+            degree: "BFA in Interaction Design",
+            school: "California College of the Arts",
+            date: "2016 - 2020"
+        }
+    ]
+};
 
-    const isEditing = btn.textContent === 'Save Profile';
+const defaultRecruiterProfile = {
+    name: "Jamel Eddine Ghabbara",
+    title: "Senior Technical Recruiter at Kaiser Permanente",
+    bio: "Passionate about connecting healthcare professionals with meaningful careers. Focusing on nursing, administration, and specialized medical roles across California.",
+    location: "Oakland, CA",
+    email: "jamel.g@kaiser.example.com",
+    website: "kaiserpermanente.jobs",
+    availability: "Hiring",
+    skills: [],
+    experience: [],
+    education: []
+};
 
-    if (isEditing) {
-        // SAVE Logic
-        const newName = document.getElementById('edit-name').value;
-        const newTitle = document.getElementById('edit-title').value;
-        const newBio = document.getElementById('edit-bio').value;
+function getProfile(role) {
+    const key = `profile_${role}`;
+    const stored = localStorage.getItem(key);
+    if (stored) return JSON.parse(stored);
+    return role === 'recruiter' ? defaultRecruiterProfile : defaultSeekerProfile;
+}
 
-        nameEl.textContent = newName;
-        titleEl.textContent = newTitle;
-        bioEl.textContent = newBio;
+function saveProfile(role, data) {
+    localStorage.setItem(`profile_${role}`, JSON.stringify(data));
+    showToast('Profile saved successfully!', 'success');
+}
 
-        btn.textContent = 'Edit Profile';
-        btn.classList.remove('btn-submit');
-        btn.classList.add('btn-secondary');
+// Render Profile Page (Read View)
+function renderProfilePage() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (!user) return;
 
-        showToast('Profile updated successfully!', 'success');
-    } else {
-        // EDIT Logic
-        const currentName = nameEl.textContent;
-        const currentTitle = titleEl.textContent;
-        const currentBio = bioEl.textContent;
+    const profile = getProfile(user.role);
 
-        nameEl.innerHTML = `<input type="text" id="edit-name" value="${currentName}" style="font-size: 1.5rem; font-weight: 700; width: 100%; padding: 0.25rem; margin-bottom: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">`;
-        titleEl.innerHTML = `<input type="text" id="edit-title" value="${currentTitle}" style="width: 100%; padding: 0.25rem; margin-bottom: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">`;
-        bioEl.innerHTML = `<textarea id="edit-bio" style="width: 100%; padding: 0.25rem; min-height: 80px; border: 1px solid #ccc; border-radius: 4px;">${currentBio}</textarea>`;
+    // Text Fields
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
 
-        btn.textContent = 'Save Profile';
-        btn.classList.remove('btn-secondary');
-        btn.classList.add('btn-submit');
+    setText('profile-name', profile.name);
+    setText('profile-title', profile.title);
+    setText('profile-bio', profile.bio);
+    setText('info-location', profile.location);
+    setText('info-email', profile.email);
+    setText('info-website', profile.website);
+    setText('info-availability', profile.availability);
+
+    // Skills
+    const skillsContainer = document.getElementById('profile-skills-list');
+    if (skillsContainer && profile.skills) {
+        skillsContainer.innerHTML = profile.skills.map(skill => `<li>${skill}</li>`).join('');
     }
+
+    // Experience
+    const expContainer = document.getElementById('profile-experience-list');
+    if (expContainer && profile.experience) {
+        expContainer.innerHTML = profile.experience.map(exp => `
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h4>${exp.title}</h4>
+                    <p class="company">${exp.company}</p>
+                    <p class="date">${exp.date}</p>
+                    <p class="description">${exp.description}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Education
+    const eduContainer = document.getElementById('profile-education-list');
+    if (eduContainer && profile.education) {
+        eduContainer.innerHTML = profile.education.map(edu => `
+            <div class="education-item">
+                <h4>${edu.degree}</h4>
+                <p class="school">${edu.school}</p>
+                <p class="date">${edu.date}</p>
+            </div>
+        `).join('');
+    }
+
+    // Update Edit Button Link
+    const editBtn = document.getElementById('edit-profile-btn');
+    if (editBtn) {
+        editBtn.onclick = () => window.location.href = 'edit-profile.html';
+        editBtn.textContent = 'Edit Profile';
+    }
+}
+
+// Logic for edit-profile.html
+function initEditProfilePage() {
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    if (!user) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const profile = getProfile(user.role);
+    const form = document.getElementById('edit-profile-form');
+    const backLink = document.getElementById('back-link');
+
+    // Setup Back Link
+    if (backLink) {
+        backLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
+        backLink.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = backLink.getAttribute('href');
+        };
+    }
+
+    const cancelBtn = document.getElementById('cancel-btn');
+    if (cancelBtn) {
+        cancelBtn.onclick = () => window.location.href = (backLink ? backLink.getAttribute('href') : 'index.html');
+    }
+
+    // Pre-fill fields
+    const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = val || '';
+    };
+
+    setVal('name', profile.name);
+    setVal('title', profile.title);
+    setVal('location', profile.location);
+    setVal('bio', profile.bio);
+    setVal('email', profile.email);
+    setVal('website', profile.website);
+    setVal('availability', profile.availability);
+    setVal('skills', profile.skills ? profile.skills.join(', ') : '');
+
+    // Render Experience Inputs
+    const expContainer = document.getElementById('experience-container');
+    if (expContainer) {
+        expContainer.innerHTML = ''; // Clear
+        (profile.experience || []).forEach(exp => addExperienceItem(exp));
+    }
+
+    // Render Education Inputs
+    const eduContainer = document.getElementById('education-container');
+    if (eduContainer) {
+        eduContainer.innerHTML = ''; // Clear
+        (profile.education || []).forEach(edu => addEducationItem(edu));
+    }
+
+    // Hide Seeker sections if Recruiter
+    if (user.role === 'recruiter') {
+        const seekerSections = document.getElementById('seeker-sections');
+        if (seekerSections) seekerSections.style.display = 'none';
+    }
+
+    // Handle Submit
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Gather Basic Data
+            const updatedProfile = {
+                ...profile,
+                name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
+                location: document.getElementById('location').value,
+                bio: document.getElementById('bio').value,
+                email: document.getElementById('email').value,
+                website: document.getElementById('website').value,
+                availability: document.getElementById('availability').value,
+            };
+
+            if (user.role !== 'recruiter') { // Assume seeker by default
+                // Gather Skills
+                const skillsStr = document.getElementById('skills').value;
+                updatedProfile.skills = skillsStr.split(',').map(s => s.trim()).filter(s => s);
+
+                // Gather Experience
+                updatedProfile.experience = Array.from(document.querySelectorAll('.experience-item')).map(item => ({
+                    title: item.querySelector('.exp-title').value,
+                    company: item.querySelector('.exp-company').value,
+                    date: item.querySelector('.exp-date').value,
+                    description: item.querySelector('.exp-desc').value
+                }));
+
+                // Gather Education
+                updatedProfile.education = Array.from(document.querySelectorAll('.education-item-form')).map(item => ({
+                    degree: item.querySelector('.edu-degree').value,
+                    school: item.querySelector('.edu-school').value,
+                    date: item.querySelector('.edu-date').value
+                }));
+            }
+
+            saveProfile(user.role, updatedProfile);
+            setTimeout(() => {
+                window.location.href = backLink ? backLink.getAttribute('href') : 'index.html';
+            }, 500);
+        });
+    }
+}
+
+function addExperienceItem(data = {}) {
+    const container = document.getElementById('experience-container');
+    if (!container) return;
+    const div = document.createElement('div');
+    div.className = 'experience-item';
+    div.style.border = '1px solid #eee';
+    div.style.padding = '1rem';
+    div.style.marginBottom = '1rem';
+    div.style.borderRadius = '8px';
+    div.innerHTML = `
+        <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+            <input type="text" class="exp-title" placeholder="Job Title" value="${data.title || ''}" style="flex: 1;" required>
+            <input type="text" class="exp-company" placeholder="Company" value="${data.company || ''}" style="flex: 1;" required>
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+            <input type="text" class="exp-date" placeholder="Date (e.g. 2020 - 2022)" value="${data.date || ''}" style="width: 100%;">
+        </div>
+        <textarea class="exp-desc" placeholder="Description" rows="3" style="width: 100%;">${data.description || ''}</textarea>
+        <button type="button" class="btn-danger" style="margin-top: 0.5rem; padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="this.parentElement.remove()">Remove</button>
+    `;
+    container.appendChild(div);
+}
+
+function addEducationItem(data = {}) {
+    const container = document.getElementById('education-container');
+    if (!container) return;
+    const div = document.createElement('div');
+    div.className = 'education-item-form';
+    div.style.border = '1px solid #eee';
+    div.style.padding = '1rem';
+    div.style.marginBottom = '1rem';
+    div.style.borderRadius = '8px';
+    div.innerHTML = `
+        <div style="margin-bottom: 0.5rem;">
+            <input type="text" class="edu-degree" placeholder="Degree / Certificate" value="${data.degree || ''}" style="width: 100%;" required>
+        </div>
+        <div style="display: flex; gap: 1rem; margin-bottom: 0.5rem;">
+            <input type="text" class="edu-school" placeholder="School / University" value="${data.school || ''}" style="flex: 1;" required>
+            <input type="text" class="edu-date" placeholder="Date" value="${data.date || ''}" style="flex: 1;">
+        </div>
+        <button type="button" class="btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="this.parentElement.remove()">Remove</button>
+    `;
+    container.appendChild(div);
+}
+
+// Global fallback for onclicks (redirects to edit page)
+function toggleEditProfile() {
+    window.location.href = 'edit-profile.html';
 }
