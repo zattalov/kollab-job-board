@@ -324,10 +324,15 @@ nav {
 .category-link.active {
     font-weight: 600;
     background: #f1f7f6;
-    /* Light Teal/Gray */
     color: var(--text-main);
     padding: 0.5rem 1rem;
     border-radius: 4px;
+}
+
+.dark-mode .category-link.active {
+    background: #2A2A2A;
+    /* Dark Grey for active category */
+    color: #E0E0E0;
 }
 
 /* Job List */
@@ -559,13 +564,12 @@ textarea {
     font-family: inherit;
     border: 1px solid var(--border-color);
     border-radius: 6px;
-    /* Matching button radius */
-    background-color: #fff;
+    background-color: var(--input-bg, #fff);
+    /* Use variable for dark mode support */
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     -webkit-appearance: none;
     appearance: none;
     height: auto;
-    /* Ensure height wraps content + padding */
 }
 
 input[type="text"]:focus,
