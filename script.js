@@ -574,19 +574,27 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         `;
 
         card.innerHTML = `
-            <a href="job-details.html?id=${job.id}" style="text-decoration: none; color: inherit; display: block;">
-                <div class="job-info">
-                    <h3>${job.title}</h3>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div class="job-info" style="flex: 1;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem;">
+                        <h3 style="margin: 0; font-size: 1.1rem;">${job.title}</h3>
+                        <span class="job-type" style="font-size: 0.8rem; background: #f3f4f6; padding: 2px 8px; border-radius: 4px; color: #374151;">${job.type}</span>
+                    </div>
                     <div class="job-details">
-                        <span class="company-name">${job.company}</span> &middot; <span>${job.location}</span>
+                        <span class="company-name" style="font-weight: 500; color: #1f2937;">${job.company}</span> 
+                        <span style="color: #9ca3af;">&middot;</span> 
+                        <span style="color: #6b7280;">${job.location}</span>
                     </div>
                 </div>
-                <div class="job-meta">
-                    <span class="job-type">${job.type}</span>
-                    <span class="job-date">${job.date}</span>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem; border-top: 1px solid #f3f4f6; padding-top: 1rem;">
+                <span class="job-date" style="font-size: 0.85rem; color: #9ca3af;">Posted ${job.date}</span>
+                <div class="job-actions" style="display: flex; gap: 0.5rem;">
+                    <button onclick="editJob('${job.id}')" class="btn-secondary">Edit</button>
+                    <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete</button>
                 </div>
-            </a>
-            ${actions}
+            </div>
         `;
         container.appendChild(card);
     });
