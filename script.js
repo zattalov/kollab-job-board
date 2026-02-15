@@ -92,11 +92,15 @@ function checkAuth() {
         // Change Log In to Profile Icon
         const loginLink = document.querySelector('a[href="login.html"]');
         if (loginLink) {
-            loginLink.innerHTML = '<div class="profile-avatar" style="width: 40px; height: 40px; font-size: 1rem; border: 2px solid #fff;"><img src="default-avatar.svg" alt="Profile"></div>';
+            // Fetch latest profile data to get the picture
+            const profileData = getProfile(user.role);
+            const profilePicSrc = profileData.profilePic || 'default-avatar.svg';
+
+            loginLink.innerHTML = `<div class="profile-avatar" style="width: 40px; height: 40px; font-size: 1rem; border: 2px solid #fff;"><img src="${profilePicSrc}" alt="Profile"></div>`;
             loginLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
             loginLink.removeAttribute('onclick');
             loginLink.title = "View Profile";
-            loginLink.style.display = 'flex'; // Ensure flex alignment
+            loginLink.style.display = 'flex';
             loginLink.style.alignItems = 'center';
         }
 
@@ -803,6 +807,30 @@ function initEditProfilePage() {
         if (seekerSections) seekerSections.style.display = 'none';
     }
 
+    // --- Profile Upload Logic ---
+    const fileInput = document.getElementById('profile-upload');
+    const previewImg = document.getElementById('edit-profile-preview');
+    let newProfilePic = null;
+
+    if (fileInput && previewImg) {
+        // Set initial preview from current profile
+        if (profile.profilePic) {
+            previewImg.src = profile.profilePic;
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    newProfilePic = e.target.result; // Store base64 string
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     // Handle Submit
     if (form) {
         form.addEventListener('submit', (e) => {
@@ -811,6 +839,7 @@ function initEditProfilePage() {
             // Gather Basic Data
             const updatedProfile = {
                 ...profile,
+                profilePic: newProfilePic || profile.profilePic, // Save new or keep old
                 name: document.getElementById('name').value,
                 title: document.getElementById('title').value,
                 location: document.getElementById('location').value,
