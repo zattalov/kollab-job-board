@@ -10,52 +10,76 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Single Column Centered Layout */
+        /* Split Layout */
         body {
-            background-color: #f8f9fa;
+            background-color: #fff;
             display: flex;
-            align-items: center;
-            justify-content: center;
             min-height: 100vh;
             margin: 0;
             font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        .login-card {
+        .login-img-section {
+            flex: 1;
+            background-color: #fce7f3;
+            /* Placeholder color if image fails */
+            display: none;
+            /* Mobile default */
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .login-img-section img {
             width: 100%;
-            max-width: 480px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            /* Subtle shadow */
-            padding: 3rem 2.5rem;
-            text-align: center;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+        }
+
+        .login-form-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            max-width: 100%;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 400px;
         }
 
         .login-logo {
             display: block;
-            margin: 0 auto 2rem auto;
-            max-width: 160px;
-            /* Adjust as needed based on generated image */
+            margin-bottom: 3rem;
+            max-width: 140px;
             height: auto;
         }
 
         .login-title {
-            font-size: 1.75rem;
-            margin-bottom: 0.5rem;
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
             font-weight: 700;
             color: var(--text-main);
+            letter-spacing: -0.02em;
         }
 
         .login-subtitle {
             color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-submit {
+            margin-top: 1rem;
         }
 
         .auth-footer {
@@ -65,39 +89,52 @@
         }
 
         .auth-footer a {
-            color: var(--text-main);
+            color: #00DF81;
+            /* Brand color for link */
             text-decoration: none;
             font-weight: 600;
         }
 
-        /* Ensure global styles apply correctly */
+        @media (min-width: 768px) {
+            .login-img-section {
+                display: flex;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="login-card">
-        <a href="index.html">
-            <img src="logo.svg" alt="KOLLAB" class="login-logo">
-        </a>
+    <!-- Left: Illustration -->
+    <div class="login-img-section">
+        <img src="login-illustration.png" alt="Welcome to KOLLAB">
+    </div>
 
-        <h1 class="login-title">Welcome back</h1>
-        <p class="login-subtitle">Please enter your details to sign in.</p>
+    <!-- Right: Form -->
+    <div class="login-form-section">
+        <div class="login-wrapper">
+            <a href="index.html">
+                <img src="logo.svg" alt="KOLLAB" class="login-logo">
+            </a>
 
-        <form action="seeker-profile.html">
-            <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" id="email" name="email" required placeholder="you@example.com">
+            <h1 class="login-title">Welcome back</h1>
+            <p class="login-subtitle">Please enter your details to sign in.</p>
+
+            <form action="seeker-profile.html">
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-submit" style="width: 100%;">Log In</button>
+            </form>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="signup.html">Sign up for free</a>
             </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••">
-            </div>
-
-            <button type="submit" class="btn-submit" style="width: 100%;">Log In</button>
-        </form>
-
-        <div class="auth-footer">
-            Don't have an account? <a href="signup.html">Sign up</a>
         </div>
     </div>
 </body>

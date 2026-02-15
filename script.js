@@ -248,7 +248,7 @@ const jobs = [
     }
 ];
 
-const jobListContainer = document.getElementById('job-list');
+const jobListContainer = document.getElementById('job-cards-container');
 const searchInput = document.getElementById('keywords');
 const locationInput = document.getElementById('location-filter');
 const categoryLinks = document.querySelectorAll('.category-link');
