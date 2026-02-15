@@ -32,9 +32,14 @@ body {
 
 /* Header */
 .site-header {
-    padding: 2rem 0;
+    background: #ffffff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     margin-bottom: 2rem;
-    border-bottom: 1px solid transparent;
 }
 
 .site-header .container {

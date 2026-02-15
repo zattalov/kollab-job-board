@@ -679,7 +679,15 @@ function getProfile(role) {
 }
 
 function saveProfile(role, data) {
-    localStorage.setItem(`profile_${role}`, JSON.stringify(data));
+    const key = `profile_${role}`;
+    localStorage.setItem(key, JSON.stringify(data));
+
+    // CRITICAL: Update currentUser if it matches, so header updates immediately
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser && currentUser.role === role) {
+        const updatedUser = { ...currentUser, ...data };
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+    }
     showToast('Profile saved successfully!', 'success');
 }
 
@@ -703,6 +711,12 @@ function renderProfilePage() {
     setText('info-email', profile.email);
     setText('info-website', profile.website);
     setText('info-availability', profile.availability);
+
+    // Update Profile Picture
+    const avatarImg = document.querySelector('.profile-avatar img');
+    if (avatarImg && profile.profilePic) {
+        avatarImg.src = profile.profilePic;
+    }
 
     // Skills
     const skillsContainer = document.getElementById('profile-skills-list');
