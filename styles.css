@@ -1333,6 +1333,8 @@ textarea {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 80px;
+    /* Ensure visual alignment */
 }
 
 /* Red Background for Delete (Restored) */
@@ -1347,6 +1349,8 @@ textarea {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 80px;
+    /* Ensure visual alignment */
 }
 
 .btn-danger:hover {
