@@ -41,4 +41,37 @@ router.post('/', async (req, res) => {
     }
 });
 
+// @desc    Update job
+// @route   PUT /api/jobs/:id
+// @access  Public (should be protected)
+router.put('/:id', async (req, res) => {
+    try {
+        const job = await Job.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        if (!job) {
+            return res.status(404).json({ success: false, error: 'Job not found' });
+        }
+        res.status(200).json({ success: true, data: job });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+});
+
+// @desc    Delete job
+// @route   DELETE /api/jobs/:id
+// @access  Public (should be protected)
+router.delete('/:id', async (req, res) => {
+    try {
+        const job = await Job.findByIdAndDelete(req.params.id);
+        if (!job) {
+            return res.status(404).json({ success: false, error: 'Job not found' });
+        }
+        res.status(200).json({ success: true, data: {} });
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+});
+
 module.exports = router;

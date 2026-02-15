@@ -19,16 +19,14 @@ function checkAuth() {
     const postJobLink = document.querySelector('a[href="post-job.html"]');
 
     if (user) {
-        // Change Log In to Logout
+        // Change Log In to Profile Icon
         const loginLink = document.querySelector('a[href="login.html"]');
         if (loginLink) {
-            loginLink.textContent = 'Logout';
-            loginLink.href = '#';
-            loginLink.onclick = (e) => {
-                e.preventDefault();
-                localStorage.removeItem('currentUser');
-                window.location.href = 'index.html';
-            };
+            loginLink.innerHTML = '<img src="user-icon.svg" alt="Profile" style="width: 24px; height: 24px; vertical-align: middle;">';
+            loginLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
+            loginLink.removeAttribute('onclick'); // Remove logout logic from here, move to profile page
+
+            // Or keep it simple: Click icon -> Profile.
         }
 
         // Hide "Post a Job" for Seekers
@@ -71,6 +69,10 @@ function handleJobSubmit(event) {
 
     const formData = new FormData(event.target);
 
+    // Check if we are editing
+    const urlParams = new URLSearchParams(window.location.search);
+    const editJobId = urlParams.get('edit');
+
     // Map form data to Backend Schema
     const jobData = {
         title: formData.get('title'),
@@ -84,8 +86,11 @@ function handleJobSubmit(event) {
         benefits: formData.get('benefits').split('\n').filter(line => line.trim()),
     };
 
-    fetch(API_URL, {
-        method: 'POST',
+    const method = editJobId ? 'PUT' : 'POST';
+    const url = editJobId ? `${API_URL}/${editJobId}` : API_URL;
+
+    fetch(url, {
+        method: method,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -94,10 +99,10 @@ function handleJobSubmit(event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Job posted successfully!');
+                alert(editJobId ? 'Job updated successfully!' : 'Job posted successfully!');
                 window.location.href = 'index.html';
             } else {
-                alert('Error posting job: ' + data.error);
+                alert(`Error ${editJobId ? 'updating' : 'posting'} job: ` + data.error);
             }
         })
         .catch(error => {
@@ -263,6 +268,42 @@ document.addEventListener('DOMContentLoaded', () => {
         locationInput.addEventListener('keydown', handleEnter);
     }
 
+    // Check URL Params for Edit Mode (post-job.html)
+    const postJobForm = document.querySelector('form[action="#"]'); // Assuming the form has no action or we select by ID/Class if available
+    // Better selector:
+    const jobPostForm = document.getElementById('job-form') || document.querySelector('.post-job-form form');
+
+    if (window.location.pathname.includes('post-job.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const editJobId = urlParams.get('edit');
+
+        if (editJobId) {
+            // Fetch job details to populate form
+            document.querySelector('h1').textContent = 'Edit Job';
+            const submitBtn = document.querySelector('.btn-submit');
+            if (submitBtn) submitBtn.textContent = 'Update Job';
+
+            fetch(`${API_URL}/${editJobId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        const job = data.data;
+                        // Populate fields
+                        document.getElementById('title').value = job.title;
+                        document.getElementById('company').value = job.company;
+                        document.getElementById('location').value = job.location;
+                        document.getElementById('field').value = job.field;
+                        document.getElementById('type').value = job.type;
+                        document.getElementById('tags').value = job.tags.join(', ');
+                        document.getElementById('about').value = job.about;
+                        document.getElementById('requirements').value = job.requirements.join('\n');
+                        document.getElementById('benefits').value = job.benefits.join('\n');
+                    }
+                })
+                .catch(err => console.error('Error fetching job for edit:', err));
+        }
+    }
+
     // Check URL Params (for index.html)
     if (jobListContainer) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -295,6 +336,18 @@ function renderJobDetails(jobId) {
         return `<p>${items}</p>`;
     };
 
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    let actionsHtml = '';
+
+    if (user && user.role === 'recruiter') {
+        actionsHtml = `
+            <div class="job-actions" style="margin-top: 1rem;">
+                <button onclick="editJob('${job.id}')" class="btn-secondary" style="margin-right: 0.5rem;">Edit Job</button>
+                <button onclick="deleteJob('${job.id}')" class="btn-danger" style="background-color: #ff4d4f; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Delete Job</button>
+            </div>
+        `;
+    }
+
     container.innerHTML = `
         <div class="job-details-wrapper">
             <div class="job-header">
@@ -312,6 +365,7 @@ function renderJobDetails(jobId) {
                 <div class="tags" style="margin-top: 1rem;">
                     ${job.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                 </div>
+                ${actionsHtml}
             </div>
 
             <div class="job-content-section">
@@ -338,6 +392,29 @@ function renderJobDetails(jobId) {
             </div>
         </div>
     `;
+}
+
+// --- JOB MANAGEMENT ACTIONS ---
+function deleteJob(jobId) {
+    if (confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+        fetch(`${API_URL}/${jobId}`, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Job deleted successfully.');
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Error deleting job: ' + data.error);
+                }
+            })
+            .catch(err => console.error(err));
+    }
+}
+
+function editJob(jobId) {
+    window.location.href = `post-job.html?edit=${jobId}`;
 }
 
 // --- RECRUITER PROFILE JOBS (Called by recruiter-profile.html) ---
