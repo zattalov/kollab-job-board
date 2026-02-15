@@ -73,6 +73,22 @@ body {
     color: var(--text-main);
 }
 
+.nav-btn {
+    background-color: #00DF81;
+    color: #000;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 1.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.nav-btn:hover {
+    background-color: #00c470;
+    color: #000;
+}
+
 /* Hero */
 .hero {
     margin-bottom: 3rem;
@@ -530,7 +546,8 @@ textarea {
 /* Profile Styles */
 .profile-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    /* Aligns avatar to top */
     gap: 2rem;
     margin-bottom: 3rem;
     padding-bottom: 2rem;

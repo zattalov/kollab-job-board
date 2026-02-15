@@ -110,14 +110,20 @@ function checkAuth() {
             logoutBtn.id = 'logout-btn';
             logoutBtn.href = '#';
             logoutBtn.className = 'nav-link';
-            logoutBtn.style.marginLeft = '1rem';
+            logoutBtn.style.marginLeft = '1.5rem';
             logoutBtn.textContent = 'Logout';
             logoutBtn.onclick = (e) => {
                 e.preventDefault();
                 localStorage.removeItem('currentUser');
                 window.location.href = 'index.html';
             };
-            if (navLinks) navLinks.appendChild(logoutBtn);
+
+            // Insert BEFORE loginLink (Profile Icon) if it exists, so Profile Icon is last
+            if (loginLink && loginLink.parentNode === navLinks) {
+                navLinks.insertBefore(logoutBtn, loginLink);
+            } else if (navLinks) {
+                navLinks.appendChild(logoutBtn);
+            }
         }
 
         // Show "Post a Job" ONLY for Recruiters

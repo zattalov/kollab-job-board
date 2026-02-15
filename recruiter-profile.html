@@ -17,8 +17,9 @@
             <a href="index.html" class="logo">
                 <img src="logo.svg" alt="KOLLAB">
             </a>
-            <nav>
-                <a href="post-job.html" class="nav-link">Post a Job</a>
+            <nav style="display: flex; align-items: center;">
+                <a href="post-job.html" class="nav-btn">Post a Job</a>
+                <a href="login.html" class="nav-link" style="margin-left: 1.5rem;">Log In</a>
             </nav>
         </div>
     </header>
@@ -40,7 +41,7 @@
         </section>
 
         <section class="recruiter-jobs">
-            <h3 class="section-title">Jobs by Sarah</h3>
+            <!-- Removed "Jobs by Sarah" as requested -->
             <div id="recruiter-job-list" class="job-list">
                 <!-- Jobs will be injected here -->
                 <div class="loading">Loading jobs...</div>
@@ -54,7 +55,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=33"></script>
+    <script src="script.js?v=34"></script>
     <script>
         // Inline script to trigger specific rendering for this page
         document.addEventListener('DOMContentLoaded', () => {
