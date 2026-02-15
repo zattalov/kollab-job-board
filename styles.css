@@ -132,6 +132,7 @@ body {
 .nav-btn:hover {
     background-color: #00c470;
     color: #000;
+    opacity: 0.9;
 }
 
 /* Hero */
