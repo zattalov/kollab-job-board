@@ -4,7 +4,7 @@ let jobs = [];
 // Fetch Jobs from API
 async function fetchJobs() {
     try {
-        const response = await fetch('http://localhost:5000/api/jobs');
+        const response = await fetch('https://kollab-backend-bxik.onrender.com/api/jobs');
         const data = await response.json();
 
         if (data.success) {
