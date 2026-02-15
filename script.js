@@ -5,6 +5,72 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let currentCategory = 'all';
 
+// --- CUSTOM NOTIFICATIONS (TOASTS) ---
+function showToast(message, type = 'info') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;margin-left:10px;">&times;</button>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    // Auto remove
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// --- CUSTOM MODAL (CONFIRM) ---
+function showConfirmModal(message, onConfirm) {
+    // Remove existing if any
+    const existing = document.querySelector('.modal-overlay');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+
+    overlay.innerHTML = `
+        <div class="custom-modal">
+            <h3 class="modal-title">Confirm Action</h3>
+            <p class="modal-message">${message}</p>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel">Cancel</button>
+                <button class="btn-modal-confirm">Confirm</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Animation
+    setTimeout(() => overlay.classList.add('show'), 10);
+
+    // Events
+    const close = () => {
+        overlay.classList.remove('show');
+        setTimeout(() => overlay.remove(), 300);
+    };
+
+    overlay.querySelector('.btn-modal-cancel').onclick = close;
+    overlay.querySelector('.btn-modal-confirm').onclick = () => {
+        close();
+        onConfirm();
+    };
+}
+
 // --- DOM ELEMENTS ---
 const jobListContainer = document.getElementById('job-cards-container');
 const paginationContainer = document.getElementById('pagination-controls');
@@ -63,7 +129,7 @@ function handleLogin(event) {
         localStorage.setItem('currentUser', JSON.stringify({ email, role: 'seeker' }));
         window.location.href = 'index.html';
     } else {
-        alert('Invalid credentials');
+        showToast('Invalid credentials. Please try again.', 'error');
     }
 }
 
@@ -73,7 +139,7 @@ function handleJobSubmit(event) {
     // Check if user is allowed to post
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (!user || user.role !== 'recruiter') {
-        alert('You must be logged in as a recruiter to post a job.');
+        showToast('You must be logged in as a recruiter to post a job.', 'error');
         return;
     }
 
@@ -114,15 +180,17 @@ function handleJobSubmit(event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert(editJobId ? 'Job updated successfully!' : 'Job posted successfully!');
-                window.location.href = 'index.html';
+                showToast(editJobId ? 'Job updated successfully!' : 'Job posted successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000); // Wait for toast
             } else {
-                alert(`Error ${editJobId ? 'updating' : 'posting'} job: ` + data.error);
+                showToast(`Error ${editJobId ? 'updating' : 'posting'} job: ` + data.error, 'error');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            showToast('An error occurred. Please try again.', 'error');
         })
         .finally(() => {
             submitBtn.textContent = originalText;
@@ -131,7 +199,6 @@ function handleJobSubmit(event) {
 }
 
 // --- DATA & API ---
-// Modified to return a Promise
 async function fetchJobs() {
     try {
         const response = await fetch(API_URL);
@@ -323,8 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const editJobId = urlParams.get('edit');
 
         if (editJobId) {
-            console.log('Edit mode detected for Job ID:', editJobId);
-
             // Update Title
             const h1 = document.querySelector('h1');
             if (h1) h1.textContent = 'Edit Job';
@@ -366,12 +431,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         setValue('url', job.applicationUrl || job.url);
                     } else {
                         console.error('API returned error:', data.error);
-                        alert('Could not load job details: ' + data.error);
+                        showToast('Could not load job details: ' + data.error, 'error');
                     }
                 })
                 .catch(err => {
                     console.error('Error fetching job for edit:', err);
-                    alert('Failed to load job details. Please check console.');
+                    showToast('Failed to load job details.', 'error');
                 });
         }
     } catch (e) {
@@ -448,7 +513,7 @@ function renderJobDetails(jobId) {
                     <strong>Interested?</strong>
                     <p style="margin:0; font-size: 0.9rem; color: var(--text-secondary);">Please check requirements before applying.</p>
                 </div>
-                <a href="#" onclick="alert('Application started!'); return false;" class="btn-apply">Apply for this job</a>
+                <a href="#" onclick="showToast('Application started!', 'success'); return false;" class="btn-apply">Apply for this job</a>
             </div>
         </div>
     `;
@@ -456,21 +521,23 @@ function renderJobDetails(jobId) {
 
 // --- JOB MANAGEMENT ACTIONS ---
 function deleteJob(jobId) {
-    if (confirm('Are you sure you want to delete this job? This action cannot be undone.')) {
+    showConfirmModal('Are you sure you want to delete this job? This action cannot be undone.', () => {
         fetch(`${API_URL}/${jobId}`, {
             method: 'DELETE',
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Job deleted successfully.');
-                    window.location.href = 'index.html';
+                    showToast('Job deleted successfully.', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000); // Wait for toast
                 } else {
-                    alert('Error deleting job: ' + data.error);
+                    showToast('Error deleting job: ' + data.error, 'error');
                 }
             })
             .catch(err => console.error(err));
-    }
+    });
 }
 
 function editJob(jobId) {
