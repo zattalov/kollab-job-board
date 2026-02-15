@@ -545,7 +545,7 @@ function deleteJob(jobId) {
                 if (data.success) {
                     showToast('Job deleted successfully.', 'success');
                     setTimeout(() => {
-                        window.location.href = 'index.html';
+                        window.location.href = 'recruiter-profile.html';
                     }, 1000); // Wait for toast
                 } else {
                     showToast('Error deleting job: ' + data.error, 'error');
