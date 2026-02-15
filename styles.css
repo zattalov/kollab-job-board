@@ -1371,6 +1371,8 @@ textarea {
     background-color: #dc2626;
     /* Red-600: More saturated/darker red */
     border-color: #dc2626;
+    color: #ffffff;
+    /* Ensure white text for readability */
 }
 
 .dark-mode .btn-danger:hover {
