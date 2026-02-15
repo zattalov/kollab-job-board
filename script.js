@@ -24,9 +24,24 @@ function checkAuth() {
         if (loginLink) {
             loginLink.innerHTML = '<img src="user-icon.svg" alt="Profile" style="width: 24px; height: 24px; vertical-align: middle;">';
             loginLink.href = user.role === 'recruiter' ? 'recruiter-profile.html' : 'seeker-profile.html';
-            loginLink.removeAttribute('onclick'); // Remove logout logic from here, move to profile page
+            loginLink.removeAttribute('onclick');
+            loginLink.title = "View Profile";
+        }
 
-            // Or keep it simple: Click icon -> Profile.
+        // Add Logout Button
+        if (!document.getElementById('logout-btn')) {
+            const logoutBtn = document.createElement('a');
+            logoutBtn.id = 'logout-btn';
+            logoutBtn.href = '#';
+            logoutBtn.className = 'nav-link';
+            logoutBtn.style.marginLeft = '1rem';
+            logoutBtn.textContent = 'Logout';
+            logoutBtn.onclick = (e) => {
+                e.preventDefault();
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            };
+            if (navLinks) navLinks.appendChild(logoutBtn);
         }
 
         // Hide "Post a Job" for Seekers
@@ -116,6 +131,7 @@ function handleJobSubmit(event) {
 }
 
 // --- DATA & API ---
+// Modified to return a Promise
 async function fetchJobs() {
     try {
         const response = await fetch(API_URL);
@@ -128,13 +144,14 @@ async function fetchJobs() {
                 id: job._id,
                 date: new Date(job.postedAt).toLocaleDateString()
             }));
-
-            filterJobs(); // Initial render
+            return jobs;
         } else {
             console.error('Failed to fetch jobs:', data.error);
+            return [];
         }
     } catch (error) {
         console.error('Error fetching jobs:', error);
+        return [];
     }
 }
 
@@ -231,9 +248,43 @@ function filterJobs() {
 // --- INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
-    fetchJobs();
 
-    // Category Links
+    // CHAINING: Fetch -> Then -> Render
+    fetchJobs().then(() => {
+        // 1. Initial Render for Index (if on index page)
+        if (jobListContainer) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('q');
+            const locParam = urlParams.get('loc');
+
+            if (queryParam || locParam) {
+                if (searchInput && queryParam) searchInput.value = queryParam;
+                if (locationInput && locParam) locationInput.value = locParam;
+            }
+            filterJobs();
+        }
+
+        // 2. Render Job Details (if on details page)
+        const detailsContainer = document.getElementById('job-details-container');
+        if (detailsContainer) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = urlParams.get('id');
+            if (jobId) {
+                renderJobDetails(jobId);
+            } else {
+                detailsContainer.innerHTML = '<div class="error">Invalid Job ID.</div>';
+            }
+        }
+
+        // 3. Render Recruiter Profile Jobs (if on profile page)
+        const recruiterContainer = document.getElementById('recruiter-job-list');
+        if (recruiterContainer) {
+            // We force 'All' here because the user wants to manage all jobs
+            renderRecruiterJobs('recruiter-job-list', 'All');
+        }
+    });
+
+    // Event Listeners
     categoryLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -244,11 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Search & Location Inputs
     const handleInput = () => {
-        if (jobListContainer) {
-            filterJobs(); // Real-time on index
-        }
+        if (jobListContainer) filterJobs();
     };
 
     const handleEnter = (e) => {
@@ -261,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (searchInput) {
         searchInput.addEventListener('input', handleInput);
-        searchInput.addEventListener('keydown', handleEnter); // Add Enter support everywhere
+        searchInput.addEventListener('keydown', handleEnter);
     }
     if (locationInput) {
         locationInput.addEventListener('input', handleInput);
@@ -269,16 +317,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Check URL Params for Edit Mode (post-job.html)
-    const postJobForm = document.querySelector('form[action="#"]'); // Assuming the form has no action or we select by ID/Class if available
-    // Better selector:
-    const jobPostForm = document.getElementById('job-form') || document.querySelector('.post-job-form form');
-
     if (window.location.pathname.includes('post-job.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const editJobId = urlParams.get('edit');
 
         if (editJobId) {
-            // Fetch job details to populate form
             document.querySelector('h1').textContent = 'Edit Job';
             const submitBtn = document.querySelector('.btn-submit');
             if (submitBtn) submitBtn.textContent = 'Update Job';
@@ -288,33 +331,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(data => {
                     if (data.success) {
                         const job = data.data;
-                        // Populate fields
-                        document.getElementById('title').value = job.title;
-                        document.getElementById('company').value = job.company;
-                        document.getElementById('location').value = job.location;
-                        document.getElementById('field').value = job.field;
-                        document.getElementById('type').value = job.type;
-                        document.getElementById('tags').value = job.tags.join(', ');
-                        document.getElementById('about').value = job.about;
-                        document.getElementById('requirements').value = job.requirements.join('\n');
-                        document.getElementById('benefits').value = job.benefits.join('\n');
+                        const getEl = (id) => document.getElementById(id);
+                        if (getEl('title')) getEl('title').value = job.title;
+                        if (getEl('company')) getEl('company').value = job.company;
+                        if (getEl('location')) getEl('location').value = job.location;
+                        if (getEl('field')) getEl('field').value = job.field;
+                        if (getEl('type')) getEl('type').value = job.type;
+                        if (getEl('tags')) getEl('tags').value = job.tags.join(', ');
+                        if (getEl('about')) getEl('about').value = job.about;
+                        if (getEl('requirements')) getEl('requirements').value = job.requirements.join('\n');
+                        if (getEl('benefits')) getEl('benefits').value = job.benefits.join('\n');
                     }
                 })
                 .catch(err => console.error('Error fetching job for edit:', err));
-        }
-    }
-
-    // Check URL Params (for index.html)
-    if (jobListContainer) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const queryParam = urlParams.get('q');
-        const locParam = urlParams.get('loc');
-
-        if (queryParam || locParam) {
-            if (searchInput && queryParam) searchInput.value = queryParam;
-            if (locationInput && locParam) locationInput.value = locParam;
-            // Delay slightly to ensure jobs are fetched, or rely on fetchJobs() calling filterJobs()
-            // Since fetchJobs calls filterJobs(), it will pick up the input values then.
         }
     }
 });
@@ -422,14 +451,6 @@ function renderRecruiterJobs(containerId, fieldFilter) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    // Wait until jobs are loaded if they are empty (simple retry mechanism)
-    if (jobs.length === 0) {
-        // If we are still fetching, we might want to wait. 
-        // But for now, let's just assume if it's empty after fetch, it's empty.
-        // However, if called BEFORE fetch completes, this is an issue.
-        // The centralized logic in DOMContentLoaded handles this now.
-    }
-
     let recruiterJobs = jobs; // Default to all
     if (fieldFilter && fieldFilter !== 'All') {
         recruiterJobs = jobs.filter(job => job.field === fieldFilter);
@@ -472,4 +493,3 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         container.appendChild(card);
     });
 }
-
