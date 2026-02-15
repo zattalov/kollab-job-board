@@ -8,9 +8,14 @@ async function fetchJobs() {
         const data = await response.json();
 
         if (data.success) {
-            jobs = data.data;
-            renderJobs();
-            // Update pagination/filtering if needed
+            // Map API data to frontend format
+            jobs = data.data.map(job => ({
+                ...job,
+                id: job._id, // MongoDB uses _id
+                date: new Date(job.postedAt).toLocaleDateString() // Simple formatting
+            }));
+
+            // Initial render via filter to ensure all logic runs
             filterJobs();
         } else {
             console.error('Failed to fetch jobs:', data.error);
