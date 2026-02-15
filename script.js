@@ -466,9 +466,9 @@ function renderJobDetails(jobId) {
 
     if (user && user.role === 'recruiter') {
         actionsHtml = `
-            <div class="job-actions" style="margin-top: 1rem;">
-                <button onclick="editJob('${job.id}')" class="btn-secondary" style="margin-right: 0.5rem;">Edit Job</button>
-                <button onclick="deleteJob('${job.id}')" class="btn-danger" style="background-color: #ff4d4f; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Delete Job</button>
+            <div class="job-actions">
+                <button onclick="editJob('${job.id}')" class="btn-secondary">Edit Job</button>
+                <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete Job</button>
             </div>
         `;
     }
@@ -567,9 +567,9 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         card.style.display = 'block';
 
         const actions = `
-            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #eee; display: flex; gap: 1rem;">
-                <button onclick="editJob('${job.id}')" class="btn-secondary" style="font-size: 0.9rem; padding: 0.25rem 0.5rem;">Edit</button>
-                <button onclick="deleteJob('${job.id}')" class="btn-danger" style="background-color: #ff4d4f; color: white; border: none; padding: 0.25rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.9rem;">Delete</button>
+            <div class="job-actions">
+                <button onclick="editJob('${job.id}')" class="btn-secondary">Edit</button>
+                <button onclick="deleteJob('${job.id}')" class="btn-danger">Delete</button>
             </div>
         `;
 

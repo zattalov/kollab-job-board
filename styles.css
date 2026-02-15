@@ -958,3 +958,48 @@ textarea {
 
 .btn-modal-cancel:hover { background: #f3f4f6; }
 .btn-modal-confirm:hover { background: #dc2626; }
+
+/* --- JOB CARD ACTIONS (Minimalist) --- */
+.job-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Edit Button - Ghost style */
+.btn-secondary {
+    background-color: white;
+    color: #374151; /* Gray-700 */
+    border: 1px solid #d1d5db; /* Gray-300 */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #f9fafb; /* Gray-50 */
+    border-color: #9ca3af; /* Gray-400 */
+    color: #111827; /* Gray-900 */
+}
+
+/* Delete Button - Ghost style with Red accents */
+.btn-danger {
+    background-color: white;
+    color: #ef4444; /* Red-500 */
+    border: 1px solid #feb2b2; /* Red-200 */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: #fef2f2; /* Red-50 */
+    border-color: #f87171; /* Red-400 */
+    color: #dc2626; /* Red-600 */
+}
