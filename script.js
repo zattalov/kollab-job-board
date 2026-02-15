@@ -5,15 +5,6 @@ let currentPage = 1;
 const itemsPerPage = 10;
 let currentCategory = 'all';
 
-// --- DEBUG HELPER ---
-function debugLog(msg) {
-    console.log('[DEBUG]', msg);
-    const debugBanner = document.getElementById('debug-banner');
-    if (debugBanner) {
-        debugBanner.innerHTML += `<div>${msg}</div>`;
-    }
-}
-
 // --- DOM ELEMENTS ---
 const jobListContainer = document.getElementById('job-cards-container');
 const paginationContainer = document.getElementById('pagination-controls');
@@ -332,58 +323,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const editJobId = urlParams.get('edit');
 
         if (editJobId) {
-            // Create a Debug Banner to confirm code is running
-            const banner = document.createElement('div');
-            banner.id = 'debug-banner';
-            banner.style.background = 'yellow';
-            banner.style.padding = '10px';
-            banner.style.borderBottom = '1px solid #ccc';
-            banner.style.position = 'fixed';
-            banner.style.top = '0';
-            banner.style.left = '0';
-            banner.style.width = '100%';
-            banner.style.zIndex = '9999';
-            banner.innerHTML = `<strong>DEBUG MODE</strong>: Edit ID detected: ${editJobId}`;
-            document.body.prepend(banner);
-
             console.log('Edit mode detected for Job ID:', editJobId);
-
-            // Wait a moment to ensure DOM is ready? No, this is inside DOMContentLoaded.
 
             // Update Title
             const h1 = document.querySelector('h1');
             if (h1) h1.textContent = 'Edit Job';
-            else console.warn('H1 not found');
 
             // Update Submit Button
             const submitBtn = document.querySelector('.btn-submit');
             if (submitBtn) {
                 submitBtn.textContent = 'Save';
-                debugLog('Updated button text to "Save"');
-            } else {
-                console.error('Submit Button .btn-submit not found!');
-                debugLog('ERROR: Submit button not found');
             }
 
-            debugLog('Fetching job data...');
             fetch(`${API_URL}/${editJobId}`)
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                     return res.json();
                 })
                 .then(data => {
-                    debugLog('Job data received');
-                    console.log('Fetched job data for edit:', data);
                     if (data.success) {
                         const job = data.data;
                         const setValue = (id, val) => {
                             const el = document.getElementById(id);
                             if (el) {
                                 el.value = val || '';
-                                console.log(`Set ${id} to "${val}"`);
-                            } else {
-                                console.warn(`Element #${id} not found`);
-                                debugLog(`WARN: Element #${id} not found`);
                             }
                         };
 
@@ -401,8 +364,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Optional URL
                         setValue('url', job.applicationUrl || job.url);
-
-                        debugLog('Form population complete');
                     } else {
                         console.error('API returned error:', data.error);
                         alert('Could not load job details: ' + data.error);
@@ -410,13 +371,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(err => {
                     console.error('Error fetching job for edit:', err);
-                    alert('Failed to load job details: ' + err.message);
-                    debugLog('Fetch Error: ' + err.message);
+                    alert('Failed to load job details. Please check console.');
                 });
         }
     } catch (e) {
-        console.error('CRITICAL ERROR in Edit Logic:', e);
-        alert('Critical Script Error: ' + e.message);
+        console.error('Error in Edit Logic:', e);
     }
 });
 
