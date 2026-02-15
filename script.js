@@ -82,7 +82,10 @@ const categoryLinks = document.querySelectorAll('.category-link');
 function checkAuth() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const navLinks = document.querySelector('nav');
-    // Hide "Post a Job" by default
+    // Define postJobLink BEFORE using it
+    const postJobLink = document.querySelector('a[href="post-job.html"]');
+
+    // Hide "Post a Job" by default result
     if (postJobLink) postJobLink.style.display = 'none';
 
     if (user) {
@@ -602,4 +605,46 @@ function renderRecruiterJobs(containerId, fieldFilter) {
         `;
         container.appendChild(card);
     });
+}
+
+// --- PROFILE EDIT LOGIC ---
+function toggleEditProfile() {
+    const btn = document.getElementById('edit-profile-btn');
+    const nameEl = document.getElementById('profile-name');
+    const titleEl = document.getElementById('profile-title');
+    const bioEl = document.getElementById('profile-bio');
+
+    if (!btn || !nameEl || !titleEl || !bioEl) return;
+
+    const isEditing = btn.textContent === 'Save Profile';
+
+    if (isEditing) {
+        // SAVE Logic
+        const newName = document.getElementById('edit-name').value;
+        const newTitle = document.getElementById('edit-title').value;
+        const newBio = document.getElementById('edit-bio').value;
+
+        nameEl.textContent = newName;
+        titleEl.textContent = newTitle;
+        bioEl.textContent = newBio;
+
+        btn.textContent = 'Edit Profile';
+        btn.classList.remove('btn-submit');
+        btn.classList.add('btn-secondary');
+
+        showToast('Profile updated successfully!', 'success');
+    } else {
+        // EDIT Logic
+        const currentName = nameEl.textContent;
+        const currentTitle = titleEl.textContent;
+        const currentBio = bioEl.textContent;
+
+        nameEl.innerHTML = `<input type="text" id="edit-name" value="${currentName}" style="font-size: 1.5rem; font-weight: 700; width: 100%; padding: 0.25rem; margin-bottom: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">`;
+        titleEl.innerHTML = `<input type="text" id="edit-title" value="${currentTitle}" style="width: 100%; padding: 0.25rem; margin-bottom: 0.5rem; border: 1px solid #ccc; border-radius: 4px;">`;
+        bioEl.innerHTML = `<textarea id="edit-bio" style="width: 100%; padding: 0.25rem; min-height: 80px; border: 1px solid #ccc; border-radius: 4px;">${currentBio}</textarea>`;
+
+        btn.textContent = 'Save Profile';
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-submit');
+    }
 }
